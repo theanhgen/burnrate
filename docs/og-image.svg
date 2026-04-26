@@ -1,0 +1,150 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0f0e0c"/>
+      <stop offset="100%" stop-color="#1a1510"/>
+    </linearGradient>
+    <linearGradient id="flame-outer" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#fb923c"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <linearGradient id="bar1" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#fb923c"/>
+    </linearGradient>
+    <linearGradient id="bar2" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="600" y1="0" x2="600" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ea580c" stop-opacity="0.15"/>
+      <stop offset="60%" stop-color="#ea580c" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="blur-glow">
+      <feGaussianBlur stdDeviation="60"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Glow -->
+  <ellipse cx="600" cy="0" rx="500" ry="300" fill="#ea580c" opacity="0.12" filter="url(#blur-glow)"/>
+
+  <!-- Subtle grid lines -->
+  <line x1="0" y1="210" x2="1200" y2="210" stroke="white" stroke-opacity="0.04"/>
+  <line x1="0" y1="420" x2="1200" y2="420" stroke="white" stroke-opacity="0.04"/>
+  <line x1="400" y1="0" x2="400" y2="630" stroke="white" stroke-opacity="0.04"/>
+  <line x1="800" y1="0" x2="800" y2="630" stroke="white" stroke-opacity="0.04"/>
+
+  <!-- Logo mark -->
+  <g transform="translate(80, 72)">
+    <rect width="52" height="52" rx="14" fill="#ea580c"/>
+    <path d="M26 8C26 14 32 16 35 21C38 26 37 32 31.5 35C33.5 31 31.5 28 28.5 27C29.5 30 27.5 33 24.5 34C22.5 32 23.5 29 24.5 27C21.5 27.5 18.5 29.5 17.5 32C14.5 29 14.5 25.5 17 21.5C19 18 23 16 25 13C25.5 11.5 26 9.5 26 8Z" fill="white"/>
+  </g>
+
+  <!-- App name -->
+  <text x="152" y="108" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', Inter, sans-serif" font-size="36" font-weight="700" fill="white" letter-spacing="-1">burnrate</text>
+
+  <!-- Tagline -->
+  <text x="80" y="186" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, sans-serif" font-size="52" font-weight="700" fill="white" letter-spacing="-2">See where your AI budget</text>
+  <text x="80" y="252" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, sans-serif" font-size="52" font-weight="700" fill="white" letter-spacing="-2">goes — <tspan fill="#ea580c">before it's gone.</tspan></text>
+
+  <!-- Sub -->
+  <text x="80" y="314" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, sans-serif" font-size="22" fill="white" fill-opacity="0.5" letter-spacing="-0.3">14 AI providers. One menu bar icon. macOS 15+</text>
+
+  <!-- Provider pills -->
+  <g transform="translate(80, 350)">
+    <!-- Claude -->
+    <rect width="96" height="34" rx="17" fill="white" fill-opacity="0.08"/>
+    <text x="48" y="22" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="white" fill-opacity="0.7" text-anchor="middle">Claude</text>
+
+    <!-- Codex -->
+    <rect x="106" width="90" height="34" rx="17" fill="white" fill-opacity="0.08"/>
+    <text x="151" y="22" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="white" fill-opacity="0.7" text-anchor="middle">Codex</text>
+
+    <!-- Gemini -->
+    <rect x="206" width="90" height="34" rx="17" fill="white" fill-opacity="0.08"/>
+    <text x="251" y="22" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="white" fill-opacity="0.7" text-anchor="middle">Gemini</text>
+
+    <!-- Copilot -->
+    <rect x="306" width="96" height="34" rx="17" fill="white" fill-opacity="0.08"/>
+    <text x="354" y="22" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="white" fill-opacity="0.7" text-anchor="middle">Copilot</text>
+
+    <!-- Cursor -->
+    <rect x="412" width="88" height="34" rx="17" fill="white" fill-opacity="0.08"/>
+    <text x="456" y="22" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="white" fill-opacity="0.7" text-anchor="middle">Cursor</text>
+
+    <!-- +9 more -->
+    <rect x="510" width="88" height="34" rx="17" fill="#ea580c" fill-opacity="0.2"/>
+    <text x="554" y="22" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#fb923c" text-anchor="middle">+9 more</text>
+  </g>
+
+  <!-- Mini popover mockup on right -->
+  <g transform="translate(720, 60)">
+    <!-- Card -->
+    <rect width="400" height="480" rx="20" fill="white" fill-opacity="0.05"/>
+    <rect width="400" height="480" rx="20" stroke="white" stroke-opacity="0.1" stroke-width="1"/>
+
+    <!-- Header -->
+    <text x="24" y="44" font-family="Inter, sans-serif" font-size="15" font-weight="700" fill="white">burnrate</text>
+    <text x="24" y="64" font-family="Inter, sans-serif" font-size="11" fill="white" fill-opacity="0.4">$148 of $327 · 4 days left</text>
+
+    <!-- Aggregate bar -->
+    <rect x="24" y="78" width="352" height="6" rx="3" fill="white" fill-opacity="0.1"/>
+    <rect x="24" y="78" width="185" height="6" rx="3" fill="url(#bar1)"/>
+
+    <!-- Provider rows -->
+    <!-- Claude -->
+    <text x="24" y="122" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="white">Claude Max</text>
+    <text x="352" y="122" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#fb923c" text-anchor="end">73%</text>
+    <rect x="24" y="128" width="328" height="5" rx="2.5" fill="white" fill-opacity="0.08"/>
+    <rect x="24" y="128" width="239" height="5" rx="2.5" fill="#ea580c"/>
+
+    <!-- Codex -->
+    <text x="24" y="164" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="white">Codex Plus</text>
+    <text x="352" y="164" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="white" fill-opacity="0.6" text-anchor="end">31%</text>
+    <rect x="24" y="170" width="328" height="5" rx="2.5" fill="white" fill-opacity="0.08"/>
+    <rect x="24" y="170" width="101" height="5" rx="2.5" fill="white" fill-opacity="0.4"/>
+
+    <!-- Gemini -->
+    <text x="24" y="206" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="white">Gemini Pro</text>
+    <text x="352" y="206" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="white" fill-opacity="0.6" text-anchor="end">12%</text>
+    <rect x="24" y="212" width="328" height="5" rx="2.5" fill="white" fill-opacity="0.08"/>
+    <rect x="24" y="212" width="39" height="5" rx="2.5" fill="white" fill-opacity="0.35"/>
+
+    <!-- Copilot -->
+    <text x="24" y="248" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="white">GitHub Copilot</text>
+    <text x="352" y="248" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#fb923c" text-anchor="end">88%</text>
+    <rect x="24" y="254" width="328" height="5" rx="2.5" fill="white" fill-opacity="0.08"/>
+    <rect x="24" y="254" width="289" height="5" rx="2.5" fill="#ea580c"/>
+
+    <!-- Cursor -->
+    <text x="24" y="290" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="white">Cursor Ultra</text>
+    <text x="352" y="290" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="white" fill-opacity="0.6" text-anchor="end">55%</text>
+    <rect x="24" y="296" width="328" height="5" rx="2.5" fill="white" fill-opacity="0.08"/>
+    <rect x="24" y="296" width="180" height="5" rx="2.5" fill="white" fill-opacity="0.4"/>
+
+    <!-- Amp -->
+    <text x="24" y="332" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="white">Amp Code</text>
+    <text x="352" y="332" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="white" fill-opacity="0.6" text-anchor="end">22%</text>
+    <rect x="24" y="338" width="328" height="5" rx="2.5" fill="white" fill-opacity="0.08"/>
+    <rect x="24" y="338" width="72" height="5" rx="2.5" fill="white" fill-opacity="0.35"/>
+
+    <!-- Divider -->
+    <line x1="24" y1="370" x2="376" y2="370" stroke="white" stroke-opacity="0.08"/>
+
+    <!-- Footer row -->
+    <text x="24" y="410" font-family="Inter, sans-serif" font-size="11" fill="white" fill-opacity="0.3">Updated just now</text>
+    <text x="352" y="410" font-family="Inter, sans-serif" font-size="11" fill="white" fill-opacity="0.3" text-anchor="end">⌘R to refresh</text>
+
+    <!-- Pace indicator -->
+    <rect x="24" y="430" width="352" height="32" rx="8" fill="#ea580c" fill-opacity="0.12"/>
+    <text x="200" y="451" font-family="Inter, sans-serif" font-size="12" font-weight="500" fill="#fb923c" text-anchor="middle">⚡ Claude burning 2.3× faster than reset pace</text>
+  </g>
+
+  <!-- Bottom bar -->
+  <rect x="0" y="580" width="1200" height="50" fill="white" fill-opacity="0.02"/>
+  <text x="80" y="611" font-family="Inter, sans-serif" font-size="13" fill="white" fill-opacity="0.3">theanhgen.github.io/burnrate</text>
+  <text x="1120" y="611" font-family="Inter, sans-serif" font-size="13" fill="white" fill-opacity="0.3" text-anchor="end">Free · Open Source · macOS 15+</text>
+</svg>
