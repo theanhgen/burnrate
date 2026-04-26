@@ -250,7 +250,7 @@ button { font-family: inherit; cursor: pointer; }
 .hero-stage {
   margin-top: 36px;
   position: relative;
-  height: 460px;
+  height: 520px;
   display: flex;
   justify-content: center;
 }
@@ -346,18 +346,7 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ========== Menu Bar Mockup ========== */
 .mbm-wrap { position: relative; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.35)); }
-.mbm-tail {
-  position: absolute;
-  top: -7px;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 14px;
-  height: 14px;
-  background: rgba(28, 22, 32, 0.92);
-  backdrop-filter: blur(40px);
-  border-left: 1px solid rgba(255,255,255,0.08);
-  border-top: 1px solid rgba(255,255,255,0.08);
-}
+
 .mbm-popover {
   width: 380px;
   background: rgba(28, 22, 32, 0.86);
@@ -1302,7 +1291,7 @@ button { font-family: inherit; cursor: pointer; }
   .hero-ctas { justify-content: flex-start; }
   .hero-meta { text-align: left; }
 
-  .hero-stage { height: 360px; margin-top: 28px; }
+  .hero-stage { height: 520px; margin-top: 28px; }
   .macbar { display: none; }
   .desktop { border-radius: 12px; top: 0; }
   .popover-anchor { top: 16px; }
@@ -1343,7 +1332,7 @@ button { font-family: inherit; cursor: pointer; }
   .appstore-btn { justify-content: center; }
   .brew-btn { justify-content: center; }
 
-  .hero-stage { height: 440px; }
+  .hero-stage { height: 520px; }
   .mbm-popover { width: min(290px, calc(100vw - 40px)); }
 
   .section-h2 { font-size: 22px; }
@@ -1817,8 +1806,6 @@ const MenuBarMockup = ({ accent = '#f97316', state = 'normal' }) => {
 
   return (
     <div className="mbm-wrap">
-      {/* tail/arrow up to menubar */}
-      <div className="mbm-tail" />
       <div className="mbm-popover">
         {/* Header */}
         <div className="mbm-header">
