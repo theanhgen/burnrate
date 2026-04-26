@@ -1,0 +1,36 @@
+.build
+.DS_Store
+Package.resolved
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Tuist generated (regenerate with: tuist generate)
+*.xcodeproj
+*.xcworkspace
+Derived/
+.derivedData/
+
+# Xcode user data
+xcuserdata/
+
+# Test results
+TestResults.xcresult/
+*.xcresult
+
+# Build artifacts
+build/
+.serena/
+
+# Logs
+*.log
+.agent-context/
+
+# Claude Code local config and internal skills
+.claude/
+
+# Internal planning and strategy docs
+docs/plans/
+docs/features/
+docs/DISTRIBUTION_STRATEGY.md
+docs/APP_STORE_LISTING_HANDOVER.md

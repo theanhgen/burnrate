@@ -1,0 +1,117 @@
+{
+  "fill-specializations" : [
+    {
+      "value" : {
+        "automatic-gradient" : "extended-srgb:0.00000,0.53333,1.00000,1.00000"
+      }
+    },
+    {
+      "appearance" : "dark",
+      "value" : "automatic"
+    }
+  ],
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "blend-mode-specializations" : [
+            {
+              "value" : "normal"
+            },
+            {
+              "appearance" : "dark",
+              "value" : "plus-darker"
+            },
+            {
+              "appearance" : "tinted",
+              "value" : "normal"
+            }
+          ],
+          "image-name" : "burnrate 4 – Layer.svg",
+          "name" : "burnrate 4 – Layer",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -0.12750000000005457,
+              19.5546875
+            ]
+          }
+        },
+        {
+          "blend-mode-specializations" : [
+            {
+              "appearance" : "dark",
+              "value" : "darken"
+            },
+            {
+              "appearance" : "tinted",
+              "value" : "normal"
+            }
+          ],
+          "fill-specializations" : [
+            {
+              "appearance" : "dark",
+              "value" : "none"
+            }
+          ],
+          "glass" : true,
+          "image-name" : "burnrate 3 – Layer.svg",
+          "name" : "burnrate 3 – Layer",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -0.05950000000007094,
+              28.95799999999997
+            ]
+          }
+        },
+        {
+          "blend-mode-specializations" : [
+            {
+              "value" : "normal"
+            },
+            {
+              "appearance" : "dark",
+              "value" : "screen"
+            },
+            {
+              "appearance" : "tinted",
+              "value" : "normal"
+            }
+          ],
+          "fill" : "automatic",
+          "glass" : true,
+          "hidden" : false,
+          "image-name" : "burnrate 2 – Layer.svg",
+          "name" : "burnrate 2 – Layer",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0.11249999999995453,
+              28.221000000000004
+            ]
+          }
+        },
+        {
+          "image-name" : "burnrate 1 – Layer 2.png",
+          "name" : "burnrate 1 – Layer 2"
+        }
+      ],
+      "name" : "burnrate",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

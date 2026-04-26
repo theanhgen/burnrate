@@ -1,0 +1,2455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>burnrate — see where your AI budget goes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* burnrate landing — light neutral background, warm flame accent */
+
+:root {
+  --bg: #fafaf7;
+  --bg-2: #f3f2ed;
+  --ink: #14110e;
+  --ink-2: #5a544c;
+  --ink-3: #8a8377;
+  --line: rgba(20, 17, 14, 0.08);
+  --line-strong: rgba(20, 17, 14, 0.16);
+  --accent: #ea580c;
+  --accent-2: #f97316;
+  --accent-soft: #fed7aa;
+  --card: #ffffff;
+  --shadow-sm: 0 1px 2px rgba(20,17,14,0.04), 0 1px 0 rgba(20,17,14,0.03);
+  --shadow-md: 0 8px 24px rgba(20,17,14,0.06), 0 2px 6px rgba(20,17,14,0.04);
+  --shadow-lg: 0 24px 60px rgba(20,17,14,0.10), 0 8px 20px rgba(20,17,14,0.06);
+  --radius: 14px;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'cv11', 'ss01';
+  letter-spacing: -0.01em;
+}
+
+button { font-family: inherit; cursor: pointer; }
+
+/* ========== Layout ========== */
+.page {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(234,88,12,0.06), transparent 70%),
+    var(--bg);
+}
+.shell {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* ========== Nav ========== */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 28px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.02em;
+}
+.nav-flame {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, var(--accent-2), var(--accent));
+  display: grid;
+  place-items: center;
+  color: white;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 1px 2px rgba(234,88,12,0.3);
+}
+.nav-links {
+  display: flex;
+  gap: 28px;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.nav-links a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-cta {
+  background: var(--ink);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+.nav-cta:hover { background: #2a241e; }
+
+/* ========== Hero ========== */
+.hero {
+  padding: 56px 0 80px;
+  text-align: center;
+  position: relative;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: rgba(234,88,12,0.08);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  margin-bottom: 24px;
+  font-family: var(--mono);
+}
+.hero-eyebrow .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(234,88,12,0.2);
+}
+
+/* Flame row decoration */
+.flame-row {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  opacity: 0.85;
+}
+.flame-row svg {
+  width: 22px;
+  height: 22px;
+}
+.flame-row svg:nth-child(odd) { transform: rotate(-4deg); }
+.flame-row svg:nth-child(even) { transform: rotate(3deg); }
+
+.hero h1 {
+  font-size: clamp(48px, 8vw, 88px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  margin: 0 0 20px;
+  font-feature-settings: 'ss01';
+}
+.hero-sub {
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  max-width: 540px;
+  margin: 0 auto 36px;
+  letter-spacing: -0.012em;
+}
+.hero-sub b { color: var(--ink); font-weight: 500; }
+
+.hero-ctas {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.appstore-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 22px 11px 18px;
+  background: #000;
+  color: #fff;
+  border-radius: 12px;
+  text-decoration: none;
+  border: none;
+  transition: transform 0.1s;
+}
+.appstore-btn:hover { transform: translateY(-1px); }
+.appstore-btn .as-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+.appstore-btn .as-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  line-height: 1.1;
+}
+.appstore-btn .as-small {
+  font-size: 9px;
+  letter-spacing: 0.03em;
+  opacity: 0.85;
+}
+.appstore-btn .as-big {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.brew-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  background: var(--card);
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink);
+  transition: all 0.15s;
+  cursor: pointer;
+}
+.brew-btn:hover { border-color: var(--ink); }
+.brew-btn .brew-prompt { color: var(--accent); font-weight: 600; }
+.brew-btn .brew-copy {
+  margin-left: 6px;
+  color: var(--ink-3);
+  font-size: 11px;
+  padding-left: 10px;
+  border-left: 1px solid var(--line);
+}
+.brew-btn.copied .brew-copy { color: var(--accent); }
+
+.hero-meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-top: 18px;
+  letter-spacing: 0;
+}
+.hero-meta span + span::before {
+  content: '·';
+  margin: 0 10px;
+  color: var(--line-strong);
+}
+
+/* ========== Hero stage ========== */
+.hero-stage {
+  margin-top: 56px;
+  position: relative;
+  height: 540px;
+  display: flex;
+  justify-content: center;
+}
+.macbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 26px;
+  background: linear-gradient(180deg, rgba(20,17,14,0.95), rgba(20,17,14,0.85));
+  backdrop-filter: blur(20px);
+  border-radius: 14px 14px 0 0;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.85);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-bottom: none;
+}
+.macbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.macbar-apple {
+  font-size: 13px;
+  line-height: 1;
+}
+.macbar-app { font-weight: 600; }
+.macbar-menu { opacity: 0.7; font-weight: 400; }
+.macbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(255,255,255,0.7);
+}
+.macbar-burnrate {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  background: rgba(234,88,12,0.18);
+  border-radius: 5px;
+  color: #ffba7a;
+  position: relative;
+}
+.macbar-burnrate::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border: 1px solid rgba(234,88,12,0.5);
+  border-radius: 6px;
+  pointer-events: none;
+}
+.macbar-burnrate .flame-mini { font-size: 10px; }
+
+/* desktop wallpaper hint */
+.desktop {
+  position: absolute;
+  inset: 26px 0 0 0;
+  background:
+    radial-gradient(ellipse at 30% 30%, rgba(234,88,12,0.08), transparent 50%),
+    radial-gradient(ellipse at 70% 70%, rgba(124, 58, 237, 0.06), transparent 50%),
+    linear-gradient(180deg, #f0ede6, #e8e4db);
+  border: 1px solid var(--line);
+  border-top: none;
+  border-radius: 0 0 14px 14px;
+  overflow: hidden;
+}
+.desktop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(20,17,14,0.05) 1px, transparent 0);
+  background-size: 24px 24px;
+  opacity: 0.4;
+}
+
+.popover-anchor {
+  position: absolute;
+  top: 38px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+/* ========== Menu Bar Mockup ========== */
+.mbm-wrap { position: relative; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.35)); }
+.mbm-tail {
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 14px;
+  height: 14px;
+  background: rgba(28, 22, 32, 0.92);
+  backdrop-filter: blur(40px);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.mbm-popover {
+  width: 380px;
+  background: rgba(28, 22, 32, 0.86);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  color: rgba(255,255,255,0.92);
+  overflow: hidden;
+  font-size: 12px;
+  position: relative;
+}
+.mbm-popover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(124,58,237,0.06), rgba(234,88,12,0.04));
+  pointer-events: none;
+  border-radius: 14px;
+}
+.mbm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 14px 12px;
+  position: relative;
+}
+.mbm-brand { display: flex; align-items: center; gap: 8px; }
+.mbm-logo {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  display: grid; place-items: center;
+  color: white;
+  box-shadow: 0 2px 6px rgba(234,88,12,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+}
+.mbm-title {
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+}
+.mbm-cycle {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(255,255,255,0.45);
+  margin-left: 6px;
+}
+.mbm-controls { display: flex; gap: 4px; }
+.mbm-btn-icon {
+  width: 24px; height: 24px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  color: rgba(255,255,255,0.7);
+  display: grid; place-items: center;
+}
+.mbm-btn-icon:hover { background: rgba(255,255,255,0.1); }
+
+.mbm-aggregate {
+  padding: 4px 16px 14px;
+  position: relative;
+}
+.mbm-agg-num {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.mbm-agg-spend {
+  font-family: var(--mono);
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: white;
+  font-feature-settings: 'tnum';
+}
+.mbm-agg-cents { color: rgba(255,255,255,0.5); font-size: 18px; }
+.mbm-agg-of {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+}
+.mbm-agg-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+.mbm-agg-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #f97316, #ea580c);
+  box-shadow: 0 0 12px rgba(234,88,12,0.5);
+}
+.mbm-agg-pace {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 1.5px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 1px;
+}
+.mbm-agg-foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(255,255,255,0.45);
+}
+.mbm-agg-track { color: #4ade80; }
+
+.mbm-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+  margin: 0 14px;
+}
+
+.mbm-list {
+  padding: 8px 8px;
+  position: relative;
+}
+.mbm-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 8px;
+  border-radius: 7px;
+  gap: 10px;
+}
+.mbm-row:hover { background: rgba(255,255,255,0.04); }
+.mbm-row.is-warn { background: rgba(245,158,11,0.06); }
+.mbm-row.is-warn:hover { background: rgba(245,158,11,0.10); }
+.mbm-row-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.mbm-dot {
+  width: 8px; height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.mbm-row-meta { min-width: 0; }
+.mbm-row-name {
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255,255,255,0.92);
+}
+.mbm-row-plan {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: rgba(255,255,255,0.4);
+  padding: 1px 5px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 3px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.mbm-row-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(255,255,255,0.45);
+  margin-top: 2px;
+}
+.mbm-row-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.mbm-row-pct {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  width: 48px;
+  text-align: right;
+}
+.mbm-row-bar {
+  width: 56px;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.mbm-row-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+}
+
+.mbm-footer {
+  display: flex;
+  gap: 6px;
+  padding: 8px;
+  position: relative;
+}
+.mbm-foot-btn {
+  flex: 1;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.75);
+  font-size: 11px;
+  padding: 7px 10px;
+  border-radius: 7px;
+  font-weight: 500;
+}
+.mbm-foot-btn:hover {
+  background: rgba(255,255,255,0.05);
+  color: white;
+}
+.mbm-foot-quit {
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  width: 38px;
+}
+
+/* ========== Provider Strip ========== */
+.section-provs {
+  padding: 80px 0 30px;
+  text-align: center;
+}
+.section-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  margin-bottom: 14px;
+}
+.section-eyebrow .num {
+  color: var(--accent);
+}
+.section-h2 {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0 auto 18px;
+  max-width: 640px;
+  text-wrap: balance;
+}
+.section-lede {
+  font-size: 16px;
+  color: var(--ink-2);
+  max-width: 540px;
+  margin: 0 auto 40px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+.prov-strip {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+}
+.prov-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 18px 14px;
+}
+.prov-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 4px;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+.prov-tile:hover { background: var(--bg-2); }
+.prov-mono {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.02em;
+  font-family: var(--sans);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.15);
+}
+.prov-name {
+  font-size: 11px;
+  color: var(--ink-2);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+/* ========== Features ========== */
+.section-features {
+  padding: 100px 0 40px;
+}
+.feat-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+.feat-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  box-shadow: var(--shadow-sm);
+}
+.feat-card.reverse {
+  grid-template-columns: 1fr 1fr;
+}
+.feat-card.reverse .feat-text { order: 2; }
+.feat-card.reverse .feat-visual { order: 1; }
+
+.feat-text {
+  padding: 44px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.feat-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+.feat-tag .feat-num {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: rgba(234,88,12,0.1);
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+}
+.feat-h3 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  margin: 0 0 12px;
+  line-height: 1.15;
+}
+.feat-p {
+  font-size: 15px;
+  color: var(--ink-2);
+  line-height: 1.55;
+  margin: 0 0 18px;
+  letter-spacing: -0.01em;
+}
+.feat-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.feat-bullets li {
+  display: flex;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--ink-2);
+  align-items: flex-start;
+}
+.feat-bullets li::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+.feat-visual {
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(124,58,237,0.08), transparent 60%),
+    linear-gradient(135deg, #1a1622, #0f0d14);
+  display: grid;
+  place-items: center;
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+  min-height: 360px;
+}
+.feat-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0);
+  background-size: 16px 16px;
+}
+.feat-visual.light-bg {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(234,88,12,0.08), transparent 60%),
+    linear-gradient(180deg, #f5f3ee, #e8e4db);
+}
+
+/* warning mockup */
+.warn-pop {
+  width: 340px;
+  background: rgba(28, 22, 32, 0.92);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 14px;
+  color: white;
+  filter: drop-shadow(0 24px 50px rgba(0,0,0,0.45));
+  position: relative;
+  z-index: 2;
+}
+.warn-banner {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(245,158,11,0.12);
+  border: 1px solid rgba(245,158,11,0.3);
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.warn-icon {
+  font-size: 14px;
+  color: #f59e0b;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.warn-title {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 3px;
+  letter-spacing: -0.005em;
+}
+.warn-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.45;
+}
+.warn-sub b { color: #fbbf24; font-weight: 600; }
+.warn-chart {
+  background: rgba(0,0,0,0.25);
+  border-radius: 8px;
+  padding: 6px;
+  margin-bottom: 12px;
+}
+.warn-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+.warn-stat {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.warn-stat-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+.warn-stat-val {
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.warn-stat-delta {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 3px;
+}
+.warn-stat-delta.warn-up { color: #f59e0b; }
+
+/* themes side-by-side */
+.themes-stage {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.theme-stack {
+  position: relative;
+  width: 480px;
+  height: 280px;
+}
+.theme-card-wrap {
+  position: absolute;
+  filter: drop-shadow(0 16px 40px rgba(0,0,0,0.18));
+}
+.theme-card-wrap.dark-pos {
+  left: 0; top: 20px;
+  transform: rotate(-3deg);
+}
+.theme-card-wrap.light-pos {
+  right: 0; top: 0;
+  transform: rotate(2deg);
+}
+.theme-label {
+  position: absolute;
+  top: -10px;
+  left: 12px;
+  font-family: var(--mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.theme-label.dark { background: #1a1622; color: white; }
+.theme-label.light { background: white; color: var(--ink); border: 1px solid var(--line); }
+
+/* light theme popover */
+.light-pop {
+  width: 240px;
+  background: white;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 11px;
+}
+.light-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.light-brand { font-weight: 600; font-size: 12px; }
+.light-cycle { font-family: var(--mono); font-size: 9px; color: var(--ink-3); }
+.light-agg { display: flex; align-items: baseline; gap: 6px; margin-bottom: 8px; }
+.light-agg-num { font-family: var(--mono); font-size: 18px; font-weight: 500; letter-spacing: -0.02em; }
+.light-agg-of { font-family: var(--mono); font-size: 10px; color: var(--ink-3); }
+.light-bar {
+  height: 4px;
+  background: rgba(0,0,0,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.light-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f97316, #ea580c);
+  border-radius: 2px;
+}
+.light-list { display: flex; flex-direction: column; gap: 2px; }
+.light-row {
+  display: grid;
+  grid-template-columns: 8px 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 4px;
+  border-radius: 5px;
+  font-size: 10px;
+}
+.light-row:hover { background: var(--bg-2); }
+.light-dot { width: 7px; height: 7px; border-radius: 2px; }
+.light-name { font-weight: 500; }
+.light-label { font-family: var(--mono); font-size: 9px; color: var(--ink-3); }
+.light-pct { font-family: var(--mono); font-size: 10px; font-weight: 500; }
+
+/* dark mini popover */
+.darkmini-pop {
+  width: 240px;
+  background: rgba(28, 22, 32, 0.95);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 12px;
+  color: white;
+  font-size: 11px;
+}
+.darkmini-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.darkmini-brand { font-weight: 600; font-size: 12px; }
+.darkmini-cycle { font-family: var(--mono); font-size: 9px; color: rgba(255,255,255,0.4); }
+.darkmini-agg { display: flex; align-items: baseline; gap: 6px; margin-bottom: 8px; }
+.darkmini-agg-num { font-family: var(--mono); font-size: 18px; font-weight: 500; letter-spacing: -0.02em; }
+.darkmini-agg-of { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.45); }
+.darkmini-bar {
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.darkmini-bar-fill { height: 100%; border-radius: 2px; }
+.darkmini-list { display: flex; flex-direction: column; gap: 2px; }
+.darkmini-row {
+  display: grid;
+  grid-template-columns: 8px 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 4px;
+  border-radius: 5px;
+  font-size: 10px;
+}
+.darkmini-row:hover { background: rgba(255,255,255,0.04); }
+.darkmini-dot { width: 7px; height: 7px; border-radius: 2px; }
+.darkmini-name { font-weight: 500; }
+.darkmini-label { font-family: var(--mono); font-size: 9px; color: rgba(255,255,255,0.45); }
+.darkmini-pct { font-family: var(--mono); font-size: 10px; font-weight: 500; }
+
+/* ========== How it works ========== */
+.section-how {
+  padding: 100px 0 60px;
+}
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.how-step {
+  background: var(--card);
+  padding: 36px 32px;
+  position: relative;
+}
+.how-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: white;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+.how-h4 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+.how-p {
+  font-size: 13.5px;
+  color: var(--ink-2);
+  line-height: 1.55;
+  margin: 0 0 18px;
+  letter-spacing: -0.005em;
+}
+.how-demo {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-2);
+  margin-top: auto;
+  min-height: 84px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.how-demo .term-prompt { color: var(--accent); }
+.how-demo .term-comment { color: var(--ink-3); }
+
+.how-toggle-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.how-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 11px;
+}
+.how-toggle .ht-name { color: var(--ink); font-weight: 500; }
+.how-pill {
+  width: 22px;
+  height: 12px;
+  border-radius: 6px;
+  position: relative;
+  background: rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+.how-pill.on { background: var(--accent); }
+.how-pill::after {
+  content: '';
+  position: absolute;
+  top: 1.5px;
+  left: 1.5px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+  transition: transform 0.15s;
+}
+.how-pill.on::after { transform: translateX(10px); }
+
+.how-bar-mini {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  background: var(--ink);
+  border-radius: 6px;
+  color: white;
+  font-size: 11px;
+  width: fit-content;
+  margin: 0 auto;
+}
+.how-bar-mini-flame {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+  font-size: 9px;
+}
+.how-bar-mini-pct {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(255,255,255,0.7);
+}
+
+/* ========== FAQ ========== */
+.section-faq {
+  padding: 80px 0;
+}
+.faq-list {
+  max-width: 720px;
+  margin: 0 auto;
+  border-top: 1px solid var(--line);
+}
+.faq-item {
+  border-bottom: 1px solid var(--line);
+}
+.faq-q {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 22px 4px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.faq-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg-2);
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  color: var(--ink-2);
+  transition: transform 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+.faq-item.open .faq-icon {
+  transform: rotate(45deg);
+  background: var(--accent);
+  color: white;
+}
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.2s;
+  font-size: 14.5px;
+  color: var(--ink-2);
+  line-height: 1.6;
+  padding: 0 4px;
+  letter-spacing: -0.005em;
+}
+.faq-item.open .faq-a {
+  max-height: 240px;
+  padding: 0 4px 22px;
+}
+.faq-a code {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  background: var(--bg-2);
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: var(--ink);
+}
+
+/* ========== CTA bottom ========== */
+.section-cta {
+  padding: 80px 0;
+  text-align: center;
+}
+.cta-card {
+  background: linear-gradient(180deg, #1a1622, #0f0d14);
+  border-radius: 24px;
+  padding: 64px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.cta-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(234,88,12,0.18), transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(124,58,237,0.12), transparent 60%);
+}
+.cta-card > * { position: relative; }
+.cta-h {
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: white;
+  margin: 0 0 14px;
+  line-height: 1.05;
+}
+.cta-p {
+  font-size: 16px;
+  color: rgba(255,255,255,0.6);
+  max-width: 460px;
+  margin: 0 auto 32px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+.cta-card .brew-btn {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.12);
+  color: white;
+}
+.cta-card .brew-btn:hover { border-color: rgba(255,255,255,0.4); }
+.cta-card .brew-btn .brew-copy {
+  color: rgba(255,255,255,0.45);
+  border-left-color: rgba(255,255,255,0.1);
+}
+
+/* ========== Footer ========== */
+.footer {
+  border-top: 1px solid var(--line);
+  padding: 36px 0 60px;
+}
+.foot-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+.foot-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.foot-meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.foot-links {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+}
+.foot-links a {
+  color: var(--ink-2);
+  text-decoration: none;
+}
+.foot-links a:hover { color: var(--ink); }
+.foot-bottom {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 880px) {
+  .nav-links { display: none; }
+  .feat-card { grid-template-columns: 1fr; }
+  .feat-card.reverse .feat-text { order: 1; }
+  .feat-card.reverse .feat-visual { order: 2; }
+  .feat-text { padding: 32px 28px; }
+  .how-grid { grid-template-columns: 1fr; }
+  .prov-grid { grid-template-columns: repeat(4, 1fr); }
+  .hero-stage { height: 460px; }
+  .mbm-popover { width: 320px; }
+  .section-h2 { font-size: 28px; }
+  .cta-h { font-size: 30px; }
+}
+@media (max-width: 520px) {
+  .prov-grid { grid-template-columns: repeat(3, 1fr); }
+  .hero-stage { height: 420px; }
+  .mbm-popover { width: 290px; }
+}
+
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" data-presets="react">
+
+// tweaks-panel.jsx
+// Reusable Tweaks shell + form-control helpers.
+//
+// Owns the host protocol (listens for __activate_edit_mode / __deactivate_edit_mode,
+// posts __edit_mode_available / __edit_mode_set_keys / __edit_mode_dismissed) so
+// individual prototypes don't re-roll it. Ships a consistent set of controls so you
+// don't hand-draw <input type="range">, segmented radios, steppers, etc.
+//
+// Usage (in an HTML file that loads React + Babel):
+//
+//   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+//     "primaryColor": "#D97757",
+//     "fontSize": 16,
+//     "density": "regular",
+//     "dark": false
+//   }/*EDITMODE-END*/;
+//
+//   function App() {
+//     const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+//     return (
+//       <div style={{ fontSize: t.fontSize, color: t.primaryColor }}>
+//         Hello
+//         <TweaksPanel>
+//           <TweakSection label="Typography" />
+//           <TweakSlider label="Font size" value={t.fontSize} min={10} max={32} unit="px"
+//                        onChange={(v) => setTweak('fontSize', v)} />
+//           <TweakRadio  label="Density" value={t.density}
+//                        options={['compact', 'regular', 'comfy']}
+//                        onChange={(v) => setTweak('density', v)} />
+//           <TweakSection label="Theme" />
+//           <TweakColor  label="Primary" value={t.primaryColor}
+//                        onChange={(v) => setTweak('primaryColor', v)} />
+//           <TweakToggle label="Dark mode" value={t.dark}
+//                        onChange={(v) => setTweak('dark', v)} />
+//         </TweaksPanel>
+//       </div>
+//     );
+//   }
+//
+// ─────────────────────────────────────────────────────────────────────────────
+
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-body::-webkit-scrollbar{width:8px}
+  .twk-body::-webkit-scrollbar-track{background:transparent;margin:2px}
+  .twk-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:4px;
+    border:2px solid transparent;background-clip:content-box}
+  .twk-body::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25);
+    border:2px solid transparent;background-clip:content-box}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;
+    color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
+
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+
+  .twk-field{appearance:none;width:100%;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-field:focus{border-color:rgba(0,0,0,.25);background:rgba(255,255,255,.85)}
+  select.twk-field{padding-right:22px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='rgba(0,0,0,.5)' d='M0 0h10L5 6z'/></svg>");
+    background-repeat:no-repeat;background-position:right 8px center}
+
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:#fff;border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg.dragging .twk-seg-thumb{transition:none}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;
+    overflow-wrap:anywhere}
+
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+
+  .twk-num{display:flex;align-items:center;height:26px;padding:0 0 0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;background:rgba(255,255,255,.6)}
+  .twk-num-lbl{font-weight:500;color:rgba(41,38,27,.6);cursor:ew-resize;
+    user-select:none;padding-right:8px}
+  .twk-num input{flex:1;min-width:0;height:100%;border:0;background:transparent;
+    font:inherit;font-variant-numeric:tabular-nums;text-align:right;padding:0 8px 0 0;
+    outline:none;color:inherit;-moz-appearance:textfield}
+  .twk-num input::-webkit-inner-spin-button,.twk-num input::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0}
+  .twk-num-unit{padding-right:8px;color:rgba(41,38,27,.45)}
+
+  .twk-btn{appearance:none;height:26px;padding:0 12px;border:0;border-radius:7px;
+    background:rgba(0,0,0,.78);color:#fff;font:inherit;font-weight:500;cursor:default}
+  .twk-btn:hover{background:rgba(0,0,0,.88)}
+  .twk-btn.secondary{background:rgba(0,0,0,.06);color:inherit}
+  .twk-btn.secondary:hover{background:rgba(0,0,0,.1)}
+
+  .twk-swatch{appearance:none;-webkit-appearance:none;width:56px;height:22px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:6px;padding:0;cursor:default;
+    background:transparent;flex-shrink:0}
+  .twk-swatch::-webkit-color-swatch-wrapper{padding:0}
+  .twk-swatch::-webkit-color-swatch{border:0;border-radius:5.5px}
+  .twk-swatch::-moz-color-swatch{border:0;border-radius:5.5px}
+`;
+
+// ── useTweaks ───────────────────────────────────────────────────────────────
+// Single source of truth for tweak values. setTweak persists via the host
+// (__edit_mode_set_keys → host rewrites the EDITMODE block on disk).
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  // Accepts either setTweak('key', value) or setTweak({ key: value, ... }) so a
+  // useState-style call doesn't write a "[object Object]" key into the persisted
+  // JSON block.
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+  }, []);
+  return [values, setTweak];
+}
+
+// ── TweaksPanel ─────────────────────────────────────────────────────────────
+// Floating shell. Registers the protocol listener BEFORE announcing
+// availability — if the announce ran first, the host's activate could land
+// before our handler exists and the toolbar toggle would silently no-op.
+// The close button posts __edit_mode_dismissed so the host's toolbar toggle
+// flips off in lockstep; the host echoes __deactivate_edit_mode back which
+// is what actually hides the panel.
+function TweaksPanel({ title = 'Tweaks', children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    offsetRef.current = {
+      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', clampToViewport);
+      return () => window.removeEventListener('resize', clampToViewport);
+    }
+    const ro = new ResizeObserver(clampToViewport);
+    ro.observe(document.documentElement);
+    return () => ro.disconnect();
+  }, [open, clampToViewport]);
+
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      const t = e?.data?.type;
+      if (t === '__activate_edit_mode') setOpen(true);
+      else if (t === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  const dismiss = () => {
+    setOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = {
+        x: startRight - (ev.clientX - sx),
+        y: startBottom - (ev.clientY - sy),
+      };
+      clampToViewport();
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel"
+           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd" onMouseDown={onDragStart}>
+          <b>{title}</b>
+          <button className="twk-x" aria-label="Close tweaks"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onClick={dismiss}>✕</button>
+        </div>
+        <div className="twk-body">{children}</div>
+      </div>
+    </>
+  );
+}
+
+// ── Layout helpers ──────────────────────────────────────────────────────────
+
+function TweakSection({ label, children }) {
+  return (
+    <>
+      <div className="twk-sect">{label}</div>
+      {children}
+    </>
+  );
+}
+
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl">
+        <span>{label}</span>
+        {value != null && <span className="twk-val">{value}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// ── Controls ────────────────────────────────────────────────────────────────
+
+function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
+  return (
+    <TweakRow label={label} value={`${value}${unit}`}>
+      <input type="range" className="twk-slider" min={min} max={max} step={step}
+             value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </TweakRow>
+  );
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              role="switch" aria-checked={!!value}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+
+  // The active value is read by pointer-move handlers attached for the lifetime
+  // of a drag — ref it so a stale closure doesn't fire onChange for every move.
+  const valueRef = React.useRef(value);
+  valueRef.current = value;
+
+  const segAt = (clientX) => {
+    const r = trackRef.current.getBoundingClientRect();
+    const inner = r.width - 4;
+    const i = Math.floor(((clientX - r.left - 2) / inner) * n);
+    return opts[Math.max(0, Math.min(n - 1, i))].value;
+  };
+
+  const onPointerDown = (e) => {
+    setDragging(true);
+    const v0 = segAt(e.clientX);
+    if (v0 !== valueRef.current) onChange(v0);
+    const move = (ev) => {
+      if (!trackRef.current) return;
+      const v = segAt(ev.clientX);
+      if (v !== valueRef.current) onChange(v);
+    };
+    const up = () => {
+      setDragging(false);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
+           className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb"
+             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
+                      width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakSelect({ label, value, options, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
+        {options.map((o) => {
+          const v = typeof o === 'object' ? o.value : o;
+          const l = typeof o === 'object' ? o.label : o;
+          return <option key={v} value={v}>{l}</option>;
+        })}
+      </select>
+    </TweakRow>
+  );
+}
+
+function TweakText({ label, value, placeholder, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+             onChange={(e) => onChange(e.target.value)} />
+    </TweakRow>
+  );
+}
+
+function TweakNumber({ label, value, min, max, step = 1, unit = '', onChange }) {
+  const clamp = (n) => {
+    if (min != null && n < min) return min;
+    if (max != null && n > max) return max;
+    return n;
+  };
+  const startRef = React.useRef({ x: 0, val: 0 });
+  const onScrubStart = (e) => {
+    e.preventDefault();
+    startRef.current = { x: e.clientX, val: value };
+    const decimals = (String(step).split('.')[1] || '').length;
+    const move = (ev) => {
+      const dx = ev.clientX - startRef.current.x;
+      const raw = startRef.current.val + dx * step;
+      const snapped = Math.round(raw / step) * step;
+      onChange(clamp(Number(snapped.toFixed(decimals))));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className="twk-num">
+      <span className="twk-num-lbl" onPointerDown={onScrubStart}>{label}</span>
+      <input type="number" value={value} min={min} max={max} step={step}
+             onChange={(e) => onChange(clamp(Number(e.target.value)))} />
+      {unit && <span className="twk-num-unit">{unit}</span>}
+    </div>
+  );
+}
+
+function TweakColor({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <input type="color" className="twk-swatch" value={value}
+             onChange={(e) => onChange(e.target.value)} />
+    </div>
+  );
+}
+
+function TweakButton({ label, onClick, secondary = false }) {
+  return (
+    <button type="button" className={secondary ? 'twk-btn secondary' : 'twk-btn'}
+            onClick={onClick}>{label}</button>
+  );
+}
+
+Object.assign(window, {
+  useTweaks, TweaksPanel, TweakSection, TweakRow,
+  TweakSlider, TweakToggle, TweakRadio, TweakSelect,
+  TweakText, TweakNumber, TweakColor, TweakButton,
+});
+
+</script>
+<script type="text/babel" data-presets="react">
+// Burnrate menu bar popover mockup — original design, dark glassmorphism
+
+const MenuBarMockup = ({ accent = '#f97316', state = 'normal' }) => {
+  const providers = [
+    { name: 'Claude', plan: 'Max 20×', used: 62, label: '$124 / $200', burn: 'on track', color: '#d97757' },
+    { name: 'Codex', plan: 'Plus', used: 41, label: '$8.20 / $20', burn: 'on track', color: '#10a37f' },
+    { name: 'Gemini', plan: 'Pro', used: 88, label: '8.8M / 10M tok', burn: 'pace warning', color: '#4285f4' },
+    { name: 'Cursor', plan: 'Ultra', used: 23, label: '460 / 2000 req', burn: 'on track', color: '#000' },
+    { name: 'Copilot', plan: 'Business', used: 54, label: '162 / 300 prem', burn: 'on track', color: '#1f1f1f' },
+    { name: 'Amp', plan: 'Pro', used: 12, label: '$3.80 / $30', burn: 'on track', color: '#7c3aed' },
+  ];
+
+  const burnColor = (b) => b === 'pace warning' ? '#f59e0b' : b === 'over pace' ? '#ef4444' : '#10b981';
+
+  return (
+    <div className="mbm-wrap">
+      {/* tail/arrow up to menubar */}
+      <div className="mbm-tail" />
+      <div className="mbm-popover">
+        {/* Header */}
+        <div className="mbm-header">
+          <div className="mbm-brand">
+            <div className="mbm-logo">
+              <svg viewBox="0 0 20 20" width="14" height="14" fill="none">
+                <path d="M10 2c1.5 3 4 4 4 7a4 4 0 11-8 0c0-1.2.6-2 1.4-2.6C8.2 7.5 8 8.5 9 9c-.5-2 .3-4.5 1-7z" fill="currentColor"/>
+              </svg>
+            </div>
+            <span className="mbm-title">burnrate</span>
+            <span className="mbm-cycle">resets in 3d 14h</span>
+          </div>
+          <div className="mbm-controls">
+            <button className="mbm-btn-icon" aria-label="refresh">
+              <svg viewBox="0 0 16 16" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M13 8a5 5 0 11-1.5-3.5M13 3v3h-3"/></svg>
+            </button>
+            <button className="mbm-btn-icon" aria-label="settings">
+              <svg viewBox="0 0 16 16" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="8" cy="8" r="2"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6L13 13M3 13l1.4-1.4M11.6 4.4L13 3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Aggregate row */}
+        <div className="mbm-aggregate">
+          <div className="mbm-agg-num">
+            <span className="mbm-agg-spend">$148.<span className="mbm-agg-cents">62</span></span>
+            <span className="mbm-agg-of">/ $327 budget</span>
+          </div>
+          <div className="mbm-agg-bar">
+            <div className="mbm-agg-fill" style={{ width: '45%', background: accent }} />
+            <div className="mbm-agg-pace" style={{ left: '52%' }} />
+          </div>
+          <div className="mbm-agg-foot">
+            <span>6 providers · day 11 of 30</span>
+            <span className="mbm-agg-track">on pace</span>
+          </div>
+        </div>
+
+        <div className="mbm-divider" />
+
+        {/* Provider rows */}
+        <div className="mbm-list">
+          {providers.map((p, i) => (
+            <div key={p.name} className={`mbm-row ${p.burn === 'pace warning' ? 'is-warn' : ''}`}>
+              <div className="mbm-row-left">
+                <div className="mbm-dot" style={{ background: p.color }} />
+                <div className="mbm-row-meta">
+                  <div className="mbm-row-name">
+                    {p.name}
+                    <span className="mbm-row-plan">{p.plan}</span>
+                  </div>
+                  <div className="mbm-row-label">{p.label}</div>
+                </div>
+              </div>
+              <div className="mbm-row-right">
+                <div className="mbm-row-pct" style={{ color: burnColor(p.burn) }}>
+                  {p.burn === 'pace warning' && '⚠ '}{p.used}%
+                </div>
+                <div className="mbm-row-bar">
+                  <div className="mbm-row-bar-fill" style={{ width: `${p.used}%`, background: burnColor(p.burn) }} />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mbm-divider" />
+
+        {/* Footer */}
+        <div className="mbm-footer">
+          <button className="mbm-foot-btn">History</button>
+          <button className="mbm-foot-btn">Add provider</button>
+          <button className="mbm-foot-btn mbm-foot-quit">⌘Q</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+window.MenuBarMockup = MenuBarMockup;
+
+</script>
+<script type="text/babel" data-presets="react">
+// Generic provider tile — original wordmarks rendered in a unified style
+// Avoids recreating any company's actual logo; uses initial-monogram tiles.
+
+const ProviderTile = ({ name, mono, accent }) => (
+  <div className="prov-tile">
+    <div className="prov-mono" style={{ background: accent || '#1a1a1a', color: '#fff' }}>
+      {mono}
+    </div>
+    <div className="prov-name">{name}</div>
+  </div>
+);
+
+const PROVIDERS = [
+  { name: 'Claude', mono: 'Cl', accent: '#d97757' },
+  { name: 'Codex', mono: 'Cx', accent: '#10a37f' },
+  { name: 'Gemini', mono: 'Gm', accent: '#4285f4' },
+  { name: 'GitHub Copilot', mono: 'Co', accent: '#24292e' },
+  { name: 'Cursor', mono: 'Cu', accent: '#000000' },
+  { name: 'Amp', mono: 'Ap', accent: '#7c3aed' },
+  { name: 'AWS Bedrock', mono: 'Br', accent: '#ff9900' },
+  { name: 'Kimi', mono: 'Ki', accent: '#0066ff' },
+  { name: 'Mistral', mono: 'Mi', accent: '#fa520f' },
+  { name: 'Z.ai', mono: 'Z', accent: '#06b6d4' },
+  { name: 'MiniMax', mono: 'Mm', accent: '#1a1a1a' },
+  { name: 'Antigravity', mono: 'Ag', accent: '#374151' },
+  { name: 'Kiro', mono: 'Kr', accent: '#9333ea' },
+  { name: 'Alibaba', mono: 'Al', accent: '#ff6a00' },
+];
+
+const ProviderStrip = () => (
+  <div className="prov-strip">
+    <div className="prov-grid">
+      {PROVIDERS.map((p) => <ProviderTile key={p.name} {...p} />)}
+    </div>
+  </div>
+);
+
+window.ProviderStrip = ProviderStrip;
+window.PROVIDERS = PROVIDERS;
+
+</script>
+<script type="text/babel" data-presets="react">
+// Secondary mockups: warning state, light theme variant, history view
+
+const WarningMockup = ({ accent = '#f97316' }) => {
+  return (
+    <div className="warn-wrap">
+      <div className="warn-pop">
+        <div className="warn-banner">
+          <div className="warn-icon">⚠</div>
+          <div className="warn-text">
+            <div className="warn-title">Claude — burning faster than reset</div>
+            <div className="warn-sub">At current pace you&apos;ll hit your weekly cap in <b>2d 6h</b>. Reset is in 4d 8h.</div>
+          </div>
+        </div>
+        <div className="warn-chart">
+          <svg viewBox="0 0 320 110" width="100%" height="110" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="warnGrad" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stopColor={accent} stopOpacity="0.35"/>
+                <stop offset="100%" stopColor={accent} stopOpacity="0"/>
+              </linearGradient>
+            </defs>
+            {/* grid */}
+            {[0,1,2,3].map(i => <line key={i} x1="0" x2="320" y1={20 + i*22} y2={20 + i*22} stroke="rgba(255,255,255,0.06)" strokeWidth="1"/>)}
+            {/* pace line (dashed) */}
+            <line x1="10" y1="90" x2="310" y2="30" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="3 3"/>
+            {/* actual usage area */}
+            <path d="M10,95 L40,88 L70,80 L100,76 L130,68 L160,55 L190,48 L220,38 L250,28 L280,22 L310,15 L310,110 L10,110 Z" fill="url(#warnGrad)"/>
+            <path d="M10,95 L40,88 L70,80 L100,76 L130,68 L160,55 L190,48 L220,38 L250,28 L280,22 L310,15" fill="none" stroke={accent} strokeWidth="2"/>
+            {/* now marker */}
+            <line x1="220" y1="10" x2="220" y2="100" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
+            <text x="222" y="18" fill="rgba(255,255,255,0.5)" fontSize="8" fontFamily="ui-monospace, monospace">NOW</text>
+            {/* limit marker */}
+            <line x1="10" y1="22" x2="310" y2="22" stroke="rgba(239,68,68,0.5)" strokeWidth="1" strokeDasharray="2 2"/>
+            <text x="14" y="18" fill="rgba(239,68,68,0.85)" fontSize="8" fontFamily="ui-monospace, monospace">LIMIT $200</text>
+          </svg>
+        </div>
+        <div className="warn-stats">
+          <div className="warn-stat">
+            <div className="warn-stat-label">SPEND / DAY</div>
+            <div className="warn-stat-val">$11.32</div>
+            <div className="warn-stat-delta warn-up">↑ 41% vs avg</div>
+          </div>
+          <div className="warn-stat">
+            <div className="warn-stat-label">PROJECTED</div>
+            <div className="warn-stat-val" style={{color:'#ef4444'}}>$248</div>
+            <div className="warn-stat-delta">over $200 cap</div>
+          </div>
+          <div className="warn-stat">
+            <div className="warn-stat-label">SAFE PACE</div>
+            <div className="warn-stat-val">$8.04</div>
+            <div className="warn-stat-delta">to land at $200</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const LightThemeMockup = () => {
+  const rows = [
+    { n: 'Claude', l: '$124 / $200', p: 62, c: '#d97757' },
+    { n: 'Codex', l: '$8.20 / $20', p: 41, c: '#10a37f' },
+    { n: 'Cursor', l: '460 / 2000', p: 23, c: '#000' },
+    { n: 'Copilot', l: '162 / 300', p: 54, c: '#1f1f1f' },
+  ];
+  return (
+    <div className="light-pop">
+      <div className="light-head">
+        <span className="light-brand">burnrate</span>
+        <span className="light-cycle">resets in 3d</span>
+      </div>
+      <div className="light-agg">
+        <span className="light-agg-num">$148.62</span>
+        <span className="light-agg-of">of $327</span>
+      </div>
+      <div className="light-bar"><div className="light-bar-fill" style={{ width: '45%' }}/></div>
+      <div className="light-list">
+        {rows.map(r => (
+          <div className="light-row" key={r.n}>
+            <span className="light-dot" style={{ background: r.c }}/>
+            <span className="light-name">{r.n}</span>
+            <span className="light-label">{r.l}</span>
+            <span className="light-pct">{r.p}%</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const DarkThemeMini = ({ accent = '#f97316' }) => {
+  const rows = [
+    { n: 'Claude', l: '$124 / $200', p: 62, c: '#d97757' },
+    { n: 'Codex', l: '$8.20 / $20', p: 41, c: '#10a37f' },
+    { n: 'Cursor', l: '460 / 2000', p: 23, c: '#888' },
+    { n: 'Copilot', l: '162 / 300', p: 54, c: '#aaa' },
+  ];
+  return (
+    <div className="darkmini-pop">
+      <div className="darkmini-head">
+        <span className="darkmini-brand">burnrate</span>
+        <span className="darkmini-cycle">resets in 3d</span>
+      </div>
+      <div className="darkmini-agg">
+        <span className="darkmini-agg-num">$148.62</span>
+        <span className="darkmini-agg-of">of $327</span>
+      </div>
+      <div className="darkmini-bar"><div className="darkmini-bar-fill" style={{ width: '45%', background: accent }}/></div>
+      <div className="darkmini-list">
+        {rows.map(r => (
+          <div className="darkmini-row" key={r.n}>
+            <span className="darkmini-dot" style={{ background: r.c }}/>
+            <span className="darkmini-name">{r.n}</span>
+            <span className="darkmini-label">{r.l}</span>
+            <span className="darkmini-pct">{r.p}%</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+window.WarningMockup = WarningMockup;
+window.LightThemeMockup = LightThemeMockup;
+window.DarkThemeMini = DarkThemeMini;
+
+</script>
+<script type="text/babel" data-presets="react">
+// Main App for burnrate landing page
+
+const { useState, useEffect, useRef } = React;
+
+// =========================================================
+// Flame icon (decorative, used in flame row)
+// =========================================================
+const FlameIcon = ({ size = 22, color, filled = true }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="none">
+    <path
+      d="M12 2C12 5 15 6 16.5 9C18 12 17 15 14.5 16.5C15.5 14.5 14.5 13 13 12.5C13.5 14.5 12.5 16 11 16.5C10 15 10.5 13 11 12C9.5 12.5 8 13.5 7.5 15C6 13.5 6 11.5 7 9.5C8 7.5 10 6 11 4C11.5 3 12 2.5 12 2Z"
+      fill={color || 'url(#flameGrad)'}
+      stroke="none"
+    />
+    <defs>
+      <linearGradient id="flameGrad" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stopColor="#fb923c"/>
+        <stop offset="100%" stopColor="#ea580c"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+// =========================================================
+// Brew install copy button
+// =========================================================
+const BrewButton = () => (
+  <a className="brew-btn" href="https://github.com/theanhgen/burnrate/releases/latest" target="_blank" rel="noreferrer">
+    <span className="brew-prompt">↓</span>
+    <span>Download from GitHub Releases</span>
+    <span className="brew-copy">free</span>
+  </a>
+);
+
+// =========================================================
+// App Store button (original styling — generic Apple icon)
+// =========================================================
+const AppStoreButton = () => (
+  <a className="appstore-btn" href="#" onClick={(e) => e.preventDefault()}>
+    <span className="as-icon" aria-hidden>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+      </svg>
+    </span>
+    <span className="as-text">
+      <span className="as-small">Download on the</span>
+      <span className="as-big">Mac App Store</span>
+    </span>
+  </a>
+);
+
+// =========================================================
+// Nav
+// =========================================================
+const Nav = () => (
+  <nav className="nav">
+    <div className="nav-brand">
+      <div className="nav-flame">
+        <FlameIcon size={13} color="white"/>
+      </div>
+      <span>burnrate</span>
+    </div>
+    <div className="nav-links">
+      <a href="#features">Features</a>
+      <a href="#providers">Providers</a>
+      <a href="#how">How it works</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://github.com/theanhgen/burnrate" target="_blank" rel="noreferrer">GitHub</a>
+    </div>
+    <button className="nav-cta">Download</button>
+  </nav>
+);
+
+// =========================================================
+// Hero
+// =========================================================
+const Hero = ({ accent }) => (
+  <section className="hero">
+    <div className="shell">
+      <div className="flame-row">
+        {Array.from({ length: 9 }).map((_, i) => (
+          <FlameIcon key={i} size={22}/>
+        ))}
+      </div>
+
+      <div className="hero-eyebrow">
+        <span className="dot"/>
+        <span>Mac App · v1.2.0</span>
+      </div>
+
+      <h1>burnrate</h1>
+      <p className="hero-sub">
+        See where your AI budget goes — <b>before it&apos;s gone.</b> One menu bar icon for every coding assistant you pay for.
+      </p>
+
+      <div className="hero-ctas">
+        <AppStoreButton/>
+        <BrewButton/>
+      </div>
+
+      <div className="hero-meta">
+        <span>Free &amp; open source</span>
+        <span>macOS 15+</span>
+        <span>Universal · Apple Silicon</span>
+      </div>
+
+      {/* Stage with menubar + popover */}
+      <div className="hero-stage">
+        <div className="macbar">
+          <div className="macbar-left">
+            <span className="macbar-apple"></span>
+            <span className="macbar-app">Finder</span>
+            <span className="macbar-menu">File</span>
+            <span className="macbar-menu">Edit</span>
+            <span className="macbar-menu">View</span>
+            <span className="macbar-menu">Go</span>
+            <span className="macbar-menu">Window</span>
+            <span className="macbar-menu">Help</span>
+          </div>
+          <div className="macbar-right">
+            <span>62%</span>
+            <span>Wed 10:24</span>
+            <span className="macbar-burnrate">
+              <span className="flame-mini">
+                <svg width="9" height="10" viewBox="0 0 24 24" fill="#ffba7a">
+                  <path d="M12 2C12 5 15 6 16.5 9C18 12 17 15 14.5 16.5C15.5 14.5 14.5 13 13 12.5C13.5 14.5 12.5 16 11 16.5C10 15 10.5 13 11 12C9.5 12.5 8 13.5 7.5 15C6 13.5 6 11.5 7 9.5C8 7.5 10 6 11 4C11.5 3 12 2.5 12 2Z"/>
+                </svg>
+              </span>
+              $148.62 / $327
+            </span>
+          </div>
+        </div>
+        <div className="desktop"/>
+        <div className="popover-anchor">
+          <MenuBarMockup accent={accent}/>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+// =========================================================
+// Provider strip
+// =========================================================
+const ProviderSection = () => (
+  <section className="section-provs" id="providers">
+    <div className="shell">
+      <div className="section-eyebrow">
+        <span className="num">14</span> · PROVIDERS
+      </div>
+      <h2 className="section-h2">One menu bar icon. Every quota you care about.</h2>
+      <p className="section-lede">
+        burnrate watches usage across every major AI coding assistant — paid, metered, or rate-limited — and rolls them up into a single live read.
+      </p>
+      <ProviderStrip/>
+    </div>
+  </section>
+);
+
+// =========================================================
+// Features
+// =========================================================
+const Features = ({ accent }) => (
+  <section className="section-features" id="features">
+    <div className="shell">
+      <div className="section-eyebrow"><span className="num">01</span> · FEATURES</div>
+      <h2 className="section-h2">Built for people who pay for more than one model.</h2>
+      <p className="section-lede">
+        Quota tracking that doesn&apos;t lie about pace. Designed to live in your menu bar without ever getting in the way.
+      </p>
+
+      <div className="feat-grid">
+        {/* Feature 1 — always-on */}
+        <div className="feat-card">
+          <div className="feat-text">
+            <div className="feat-tag"><span className="feat-num">01</span> ALWAYS-ON QUOTA VIEW</div>
+            <h3 className="feat-h3">A glanceable spend total in your menu bar.</h3>
+            <p className="feat-p">
+              Click the flame icon and every provider is right there — current cycle spend, plan tier, days until reset. No tabs. No dashboards. No context-switching out of your editor.
+            </p>
+            <ul className="feat-bullets">
+              <li>Aggregate spend with budget pacing line</li>
+              <li>Per-provider live usage bars and burn-rate badges</li>
+              <li>Polls in the background — never blocks your machine</li>
+            </ul>
+          </div>
+          <div className="feat-visual">
+            <MenuBarMockup accent={accent}/>
+          </div>
+        </div>
+
+        {/* Feature 2 — burn rate warnings */}
+        <div className="feat-card reverse">
+          <div className="feat-text">
+            <div className="feat-tag"><span className="feat-num">02</span> BURN RATE WARNINGS</div>
+            <h3 className="feat-h3">Pace-aware alerts. Not dumb percentages.</h3>
+            <p className="feat-p">
+              Most quota trackers shout when you hit 80% — even if reset is six hours away. burnrate models your trajectory and only warns when you&apos;re actually going to run out.
+            </p>
+            <ul className="feat-bullets">
+              <li>Per-provider linear projection vs cycle reset</li>
+              <li>&quot;Safe pace&quot; recommendation to land exactly on budget</li>
+              <li>Quiet days are quiet — alerts only fire when needed</li>
+            </ul>
+          </div>
+          <div className="feat-visual">
+            <WarningMockup accent={accent}/>
+          </div>
+        </div>
+
+        {/* Feature 3 — themes */}
+        <div className="feat-card">
+          <div className="feat-text">
+            <div className="feat-tag"><span className="feat-num">03</span> THEMES</div>
+            <h3 className="feat-h3">Dark and Light. Both built for legibility.</h3>
+            <p className="feat-p">
+              Two carefully tuned themes — pick one or follow macOS system appearance. Your numbers come first, the chrome stays out of the way.
+            </p>
+            <ul className="feat-bullets">
+              <li>Dark and Light — or auto-follow macOS appearance</li>
+              <li>Monospace numerics for easy scanning</li>
+              <li>Accessible contrast in both modes</li>
+            </ul>
+          </div>
+          <div className="feat-visual light-bg">
+            <div className="themes-stage">
+              <div className="theme-stack">
+                <div className="theme-card-wrap dark-pos">
+                  <div className="theme-label dark">Dark</div>
+                  <DarkThemeMini accent={accent}/>
+                </div>
+                <div className="theme-card-wrap light-pos">
+                  <div className="theme-label light">Light</div>
+                  <LightThemeMockup/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+// =========================================================
+// How it works
+// =========================================================
+const HowItWorks = () => (
+  <section className="section-how" id="how">
+    <div className="shell">
+      <div className="section-eyebrow"><span className="num">02</span> · GET STARTED</div>
+      <h2 className="section-h2">From zero to tracking in under a minute.</h2>
+      <p className="section-lede">
+        No SDK to install. No API keys for the providers you&apos;re already signed in to.
+      </p>
+
+      <div className="how-grid">
+        <div className="how-step">
+          <div className="how-num">1</div>
+          <h4 className="how-h4">Install</h4>
+          <p className="how-p">Grab it from the Mac App Store or download the signed DMG directly from GitHub Releases.</p>
+          <div className="how-demo">
+            <div><span className="term-prompt">↓</span> github.com/theanhgen/burnrate/releases</div>
+            <div><span className="term-comment"># signed &amp; notarized</span></div>
+          </div>
+        </div>
+
+        <div className="how-step">
+          <div className="how-num">2</div>
+          <h4 className="how-h4">Enable providers</h4>
+          <p className="how-p">Toggle on the assistants you use. burnrate uses your existing browser sessions — no extra credentials to manage.</p>
+          <div className="how-demo" style={{ background: 'var(--bg)', padding: 10 }}>
+            <div className="how-toggle-row">
+              <div className="how-toggle"><span className="ht-name">Claude Max</span><span className="how-pill on"/></div>
+              <div className="how-toggle"><span className="ht-name">Codex Plus</span><span className="how-pill on"/></div>
+              <div className="how-toggle"><span className="ht-name">Cursor Ultra</span><span className="how-pill"/></div>
+            </div>
+          </div>
+        </div>
+
+        <div className="how-step">
+          <div className="how-num">3</div>
+          <h4 className="how-h4">Live in the menu bar</h4>
+          <p className="how-p">Your spend pacing is now one glance away. No app to launch, no dashboard to refresh, no tab to keep alive.</p>
+          <div className="how-demo" style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <div className="how-bar-mini">
+              <span className="how-bar-mini-flame">
+                <svg width="8" height="9" viewBox="0 0 24 24" fill="white">
+                  <path d="M12 2C12 5 15 6 16.5 9C18 12 17 15 14.5 16.5C15.5 14.5 14.5 13 13 12.5C13.5 14.5 12.5 16 11 16.5C10 15 10.5 13 11 12C9.5 12.5 8 13.5 7.5 15C6 13.5 6 11.5 7 9.5C8 7.5 10 6 11 4C11.5 3 12 2.5 12 2Z"/>
+                </svg>
+              </span>
+              <span>$148.62</span>
+              <span className="how-bar-mini-pct">/ $327</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+// =========================================================
+// FAQ
+// =========================================================
+const FAQ = () => {
+  const items = [
+    {
+      q: 'Which AI providers are supported?',
+      a: 'Claude (Pro / Max), Codex, Gemini, GitHub Copilot, Cursor, Amp, AWS Bedrock, Kimi, Mistral, Z.ai, MiniMax, Antigravity, Kiro, and Alibaba — 14 in total. We add support for new ones as the community asks.'
+    },
+    {
+      q: 'Does it work on macOS 14?',
+      a: 'No — burnrate requires macOS 15 (Sequoia) or later. We use new menu bar APIs introduced in 15 to keep the popover smooth and the resource footprint low.'
+    },
+    {
+      q: 'Is it free?',
+      a: <>Yes, completely free. Download from the Mac App Store or grab the signed DMG from GitHub Releases. There are no in-app purchases, subscriptions, or paid tiers.</>
+    },
+    {
+      q: 'Does burnrate store my credentials?',
+      a: 'No. burnrate uses the session cookies already in your browser — your passwords and API keys never touch the app. All data stays on your Mac, and the binary is open source on GitHub if you want to verify.'
+    },
+    {
+      q: 'How is this different from checking each dashboard manually?',
+      a: 'Speed and pacing. Checking eight dashboards takes minutes; the menu bar takes a glance. And dashboards only show how much you\'ve used — burnrate shows whether your pace is sustainable for the rest of the cycle.'
+    },
+    {
+      q: 'Will burnrate slow down my Mac?',
+      a: 'No. It polls in the background on a configurable interval (default: 5 min), uses well under 30MB of RAM, and idles at under 0.1% CPU. It\'s a menu bar app, not an Electron container.'
+    },
+  ];
+
+  const [open, setOpen] = useState(0);
+
+  return (
+    <section className="section-faq" id="faq">
+      <div className="shell">
+        <div className="section-eyebrow"><span className="num">03</span> · FAQ</div>
+        <h2 className="section-h2">Things people ask.</h2>
+
+        <div className="faq-list">
+          {items.map((item, i) => (
+            <div key={i} className={`faq-item ${open === i ? 'open' : ''}`}>
+              <button className="faq-q" onClick={() => setOpen(open === i ? -1 : i)}>
+                <span>{item.q}</span>
+                <span className="faq-icon">+</span>
+              </button>
+              <div className="faq-a">{item.a}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// =========================================================
+// Bottom CTA
+// =========================================================
+const BottomCTA = () => (
+  <section className="section-cta">
+    <div className="shell">
+      <div className="cta-card">
+        <h2 className="cta-h">Ready to stop guessing your spend?</h2>
+        <p className="cta-p">Free, signed, notarized. Install in one command — uninstall in one click.</p>
+        <div className="hero-ctas">
+          <AppStoreButton/>
+          <BrewButton/>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+// =========================================================
+// Footer
+// =========================================================
+const Footer = () => (
+  <footer className="footer">
+    <div className="shell">
+      <div className="foot-row">
+        <div className="foot-brand">
+          <div className="nav-flame"><FlameIcon size={13} color="white"/></div>
+          <span>burnrate</span>
+          <span className="foot-meta" style={{ marginLeft: 12 }}>v1.2.0</span>
+        </div>
+        <div className="foot-links">
+          <a href="https://github.com/theanhgen/burnrate" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="#">Privacy</a>
+          <a href="#">Changelog</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+      <div className="foot-bottom">
+        <span>com.nguyentheanh.burnrate · macOS 15+ · Universal Binary</span>
+        <span>An independent project. Not affiliated with any provider.</span>
+      </div>
+    </div>
+  </footer>
+);
+
+// =========================================================
+// App + Tweaks
+// =========================================================
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "#ea580c",
+  "showFlameRow": true,
+  "heroLayout": "centered"
+}/*EDITMODE-END*/;
+
+const App = () => {
+  const [tweaks, setTweak] = window.useTweaks ? window.useTweaks(TWEAK_DEFAULTS) : [TWEAK_DEFAULTS, () => {}];
+
+  // Apply accent CSS var
+  useEffect(() => {
+    document.documentElement.style.setProperty('--accent', tweaks.accent);
+    // derive a slightly lighter accent-2
+    document.documentElement.style.setProperty('--accent-2', tweaks.accent);
+  }, [tweaks.accent]);
+
+  const TweaksPanel = window.TweaksPanel;
+  const TweakSection = window.TweakSection;
+  const TweakColor = window.TweakColor;
+  const TweakToggle = window.TweakToggle;
+  const TweakRadio = window.TweakRadio;
+
+  return (
+    <div className="page">
+      <Nav/>
+      <Hero accent={tweaks.accent}/>
+      <ProviderSection/>
+      <Features accent={tweaks.accent}/>
+      <HowItWorks/>
+      <FAQ/>
+      <BottomCTA/>
+      <Footer/>
+
+      {TweaksPanel && (
+        <TweaksPanel title="Tweaks">
+          <TweakSection title="Brand">
+            <TweakColor label="Accent color" value={tweaks.accent} onChange={(v) => setTweak('accent', v)}/>
+          </TweakSection>
+          <TweakSection title="Hero">
+            <TweakToggle label="Decorative flame row" value={tweaks.showFlameRow} onChange={(v) => setTweak('showFlameRow', v)}/>
+          </TweakSection>
+        </TweaksPanel>
+      )}
+
+      {/* style tag controlled by tweaks */}
+      <style>{`
+        ${!tweaks.showFlameRow ? '.flame-row { display: none; }' : ''}
+      `}</style>
+    </div>
+  );
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>);
+
+</script>
+</body>
+</html>
