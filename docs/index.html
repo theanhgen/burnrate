@@ -104,11 +104,9 @@ button { font-family: inherit; cursor: pointer; }
   width: 22px;
   height: 22px;
   border-radius: 7px;
-  background: linear-gradient(135deg, var(--accent-2), var(--accent));
-  display: grid;
-  place-items: center;
-  color: white;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 1px 2px rgba(234,88,12,0.3);
+  overflow: hidden;
+  display: block;
+  flex-shrink: 0;
 }
 .nav-links {
   display: flex;
@@ -597,6 +595,7 @@ button { font-family: inherit; cursor: pointer; }
   letter-spacing: 0.08em;
   color: var(--ink-3);
   margin-bottom: 14px;
+  text-align: center;
 }
 .section-eyebrow .num {
   color: var(--accent);
@@ -609,6 +608,7 @@ button { font-family: inherit; cursor: pointer; }
   margin: 0 auto 12px;
   max-width: 640px;
   text-wrap: balance;
+  text-align: center;
 }
 .section-lede {
   font-size: 16px;
@@ -617,6 +617,7 @@ button { font-family: inherit; cursor: pointer; }
   margin: 0 auto 24px;
   line-height: 1.5;
   letter-spacing: -0.01em;
+  text-align: center;
 }
 
 .prov-strip {
@@ -796,6 +797,27 @@ button { font-family: inherit; cursor: pointer; }
     background:
       radial-gradient(ellipse at 50% 30%, rgba(124,58,237,0.08), transparent 60%),
       linear-gradient(135deg, #1a1622, #0f0d14);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .desktop {
+    background:
+      radial-gradient(ellipse at 30% 30%, rgba(234,88,12,0.12), transparent 50%),
+      radial-gradient(ellipse at 70% 70%, rgba(124,58,237,0.10), transparent 50%),
+      linear-gradient(180deg, #1a1815, #0f0d14);
+    border-color: rgba(245,243,238,0.06);
+  }
+  .desktop::after {
+    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0);
+  }
+  .nav-cta {
+    background: rgba(245,243,238,0.08);
+    color: #f5f3ee;
+    border: 1px solid rgba(245,243,238,0.14);
+  }
+  .nav-cta:hover {
+    background: rgba(245,243,238,0.14);
   }
 }
 
@@ -1315,21 +1337,23 @@ button { font-family: inherit; cursor: pointer; }
   .nav-links { display: none; }
   .nav-cta { display: none; }
 
-  .hero { padding: 48px 0 0; text-align: left; }
+  .hero { padding: 48px 0 0; }
+  .hero .shell { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .hero-content { text-align: left; }
   .hero-eyebrow { justify-content: flex-start; }
-  .hero-sub { margin: 0 0 28px; text-align: left; font-size: 17px; }
+  .hero-sub { margin: 0 0 28px; font-size: 17px; }
   .hero-ctas { justify-content: flex-start; }
-  .hero-meta { text-align: left; }
 
-  .hero-stage { height: 520px; margin-top: 28px; }
+  .hero-stage { height: 400px; margin-top: 0; }
   .macbar { display: none; }
   .desktop { border-radius: 12px; top: 0; }
   .popover-anchor { top: 16px; }
   .mbm-popover { width: 300px; }
 
   .section-provs, .section-features, .section-how { padding: 40px 0; }
-  .section-h2 { font-size: 26px; letter-spacing: -0.02em; }
-  .section-lede { font-size: 16px; }
+  .section-h2 { font-size: 26px; letter-spacing: -0.02em; text-align: left; margin-left: 0; margin-right: 0; }
+  .section-lede { font-size: 16px; text-align: left; margin-left: 0; margin-right: 0; }
+  .section-eyebrow { text-align: left; }
 
   .prov-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
 
@@ -1362,8 +1386,10 @@ button { font-family: inherit; cursor: pointer; }
   .appstore-btn { justify-content: center; }
   .brew-btn { justify-content: center; }
 
-  .hero-stage { height: 520px; }
-  .mbm-popover { width: min(290px, calc(100vw - 40px)); }
+  .hero-stage { height: auto; margin-top: 24px; padding-bottom: 32px; }
+  .desktop { display: none; }
+  .popover-anchor { position: static; transform: none; display: flex; justify-content: center; }
+  .mbm-popover { width: 280px; }
 
   .section-h2 { font-size: 22px; }
   .prov-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
@@ -2152,9 +2178,7 @@ const AppStoreButton = () => (
 const Nav = () => (
   <nav className="nav">
     <div className="nav-brand">
-      <div className="nav-flame">
-        <FlameIcon size={13} color="white"/>
-      </div>
+      <img src="favicon.svg" width="22" height="22" className="nav-flame" />
       <span>burnrate</span>
     </div>
     <div className="nav-links">
@@ -2175,19 +2199,21 @@ const Hero = ({ accent }) => (
   <section className="hero">
     <div className="shell">
 
-      <div className="hero-eyebrow">
-        <span className="dot"/>
-        <span>Mac App · v0.4.57</span>
-      </div>
+      <div className="hero-content">
+        <div className="hero-eyebrow">
+          <span className="dot"/>
+          <span>Mac App · v0.4.57</span>
+        </div>
 
-      <h1>burnrate</h1>
-      <p className="hero-sub">
-        See where your AI budget goes — <b>before it&apos;s gone.</b> One menu bar icon for every coding assistant you pay for.
-      </p>
+        <h1>burnrate</h1>
+        <p className="hero-sub">
+          See where your AI budget goes — <b>before it&apos;s gone.</b> One menu bar icon for every coding assistant you pay for.
+        </p>
 
-      <div className="hero-ctas">
-        <AppStoreButton/>
-        <BrewButton/>
+        <div className="hero-ctas">
+          <AppStoreButton/>
+          <BrewButton/>
+        </div>
       </div>
 
       {/* Stage with menubar + popover */}
@@ -2466,7 +2492,7 @@ const Footer = () => (
     <div className="shell">
       <div className="foot-row">
         <div className="foot-brand">
-          <div className="nav-flame"><FlameIcon size={13} color="white"/></div>
+          <img src="favicon.svg" width="22" height="22" className="nav-flame" />
           <span>burnrate</span>
           <span className="foot-meta" style={{ marginLeft: 12 }}>v0.4.57</span>
         </div>
