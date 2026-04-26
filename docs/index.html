@@ -40,6 +40,23 @@
   --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0e0c;
+    --bg-2: #1a1815;
+    --card: #1a1815;
+    --ink: #f5f3ee;
+    --ink-2: #a89d90;
+    --ink-3: #6b6358;
+    --line: rgba(245,243,238,0.07);
+    --line-strong: rgba(245,243,238,0.14);
+    --accent-soft: #7c2d12;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.2), 0 1px 0 rgba(0,0,0,0.1);
+    --shadow-md: 0 8px 24px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.15);
+    --shadow-lg: 0 24px 60px rgba(0,0,0,0.5), 0 8px 20px rgba(0,0,0,0.3);
+  }
+}
+
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body {
@@ -184,6 +201,11 @@ button { font-family: inherit; cursor: pointer; }
   transition: transform 0.1s;
 }
 .appstore-btn:hover { transform: translateY(-1px); }
+
+@media (prefers-color-scheme: dark) {
+  .appstore-btn { background: #f5f3ee; color: #14110e; }
+  .appstore-btn svg path { fill: #14110e; }
+}
 .appstore-btn .as-icon {
   display: flex;
   align-items: center;
@@ -767,6 +789,14 @@ button { font-family: inherit; cursor: pointer; }
   background:
     radial-gradient(ellipse at 50% 0%, rgba(234,88,12,0.08), transparent 60%),
     linear-gradient(180deg, #f5f3ee, #e8e4db);
+}
+
+@media (prefers-color-scheme: dark) {
+  .feat-visual.light-bg {
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(124,58,237,0.08), transparent 60%),
+      linear-gradient(135deg, #1a1622, #0f0d14);
+  }
 }
 
 /* warning mockup */
