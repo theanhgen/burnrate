@@ -656,11 +656,27 @@ button { font-family: inherit; cursor: pointer; }
   font-family: var(--sans);
   box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.15);
 }
+.prov-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+}
+.prov-icon img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
 .prov-name {
   font-size: 11px;
   color: var(--ink-2);
   font-weight: 500;
   letter-spacing: -0.005em;
+  text-align: center;
 }
 
 /* ========== Features ========== */
@@ -1902,30 +1918,31 @@ window.MenuBarMockup = MenuBarMockup;
 // Generic provider tile — original wordmarks rendered in a unified style
 // Avoids recreating any company's actual logo; uses initial-monogram tiles.
 
-const ProviderTile = ({ name, mono, accent }) => (
+const ProviderTile = ({ name, icon, mono, accent }) => (
   <div className="prov-tile">
-    <div className="prov-mono" style={{ background: accent || '#1a1a1a', color: '#fff' }}>
-      {mono}
-    </div>
+    {icon
+      ? <div className="prov-icon"><img src={icon} alt={name} width="40" height="40"/></div>
+      : <div className="prov-mono" style={{ background: accent || '#1a1a1a', color: '#fff' }}>{mono}</div>
+    }
     <div className="prov-name">{name}</div>
   </div>
 );
 
 const PROVIDERS = [
-  { name: 'Claude', mono: 'Cl', accent: '#d97757' },
-  { name: 'Codex', mono: 'Cx', accent: '#10a37f' },
-  { name: 'Gemini', mono: 'Gm', accent: '#4285f4' },
-  { name: 'GitHub Copilot', mono: 'Co', accent: '#24292e' },
-  { name: 'Cursor', mono: 'Cu', accent: '#000000' },
-  { name: 'Amp', mono: 'Ap', accent: '#7c3aed' },
-  { name: 'AWS Bedrock', mono: 'Br', accent: '#ff9900' },
-  { name: 'Kimi', mono: 'Ki', accent: '#0066ff' },
-  { name: 'Mistral', mono: 'Mi', accent: '#fa520f' },
-  { name: 'Z.ai', mono: 'Z', accent: '#06b6d4' },
-  { name: 'MiniMax', mono: 'Mm', accent: '#1a1a1a' },
-  { name: 'Antigravity', mono: 'Ag', accent: '#374151' },
-  { name: 'Kiro', mono: 'Kr', accent: '#9333ea' },
-  { name: 'Alibaba', mono: 'Al', accent: '#ff6a00' },
+  { name: 'Claude',         icon: 'icons/ClaudeIcon.svg' },
+  { name: 'Codex',          icon: 'icons/CodexIcon.svg' },
+  { name: 'Gemini',         icon: 'icons/GeminiIcon.svg' },
+  { name: 'Copilot',        icon: 'icons/CopilotIcon.png' },
+  { name: 'Cursor',         icon: 'icons/CursorIcon.svg' },
+  { name: 'Amp',            icon: 'icons/AmpCodeIcon.svg' },
+  { name: 'AWS Bedrock',    icon: 'icons/BedrockIcon.svg' },
+  { name: 'Kimi',           icon: 'icons/KimiIcon.png' },
+  { name: 'Mistral',        icon: 'icons/MistralIcon.png' },
+  { name: 'Z.ai',           icon: 'icons/ZaiIcon.svg' },
+  { name: 'MiniMax',        icon: 'icons/MiniMaxIcon.svg' },
+  { name: 'Antigravity',    icon: 'icons/Antigravity.svg' },
+  { name: 'Kiro',           icon: 'icons/KiroIcon.svg' },
+  { name: 'Alibaba',        mono: 'Al', accent: '#ff6a00' },
 ];
 
 const ProviderStrip = () => (
