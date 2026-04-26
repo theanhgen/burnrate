@@ -609,7 +609,7 @@ button { font-family: inherit; cursor: pointer; }
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.1;
-  margin: 0 auto 18px;
+  margin: 0 0 18px;
   max-width: 640px;
   text-wrap: balance;
 }
@@ -617,7 +617,7 @@ button { font-family: inherit; cursor: pointer; }
   font-size: 16px;
   color: var(--ink-2);
   max-width: 540px;
-  margin: 0 auto 40px;
+  margin: 0 0 40px;
   line-height: 1.5;
   letter-spacing: -0.01em;
 }
@@ -1315,7 +1315,7 @@ button { font-family: inherit; cursor: pointer; }
   .hero-ctas { justify-content: flex-start; }
   .hero-meta { text-align: left; }
 
-  .hero-stage { height: 380px; margin-top: 36px; }
+  .hero-stage { height: 360px; margin-top: 28px; }
   .macbar { display: none; }
   .desktop { border-radius: 12px; top: 0; }
   .popover-anchor { top: 16px; }
@@ -1356,8 +1356,8 @@ button { font-family: inherit; cursor: pointer; }
   .appstore-btn { justify-content: center; }
   .brew-btn { justify-content: center; }
 
-  .hero-stage { height: 320px; }
-  .mbm-popover { width: 260px; }
+  .hero-stage { display: none; }
+  .hero { padding-bottom: 40px; }
 
   .section-h2 { font-size: 22px; }
   .prov-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
@@ -1942,7 +1942,7 @@ const PROVIDERS = [
   { name: 'MiniMax',        icon: 'icons/MiniMaxIcon.svg' },
   { name: 'Antigravity',    icon: 'icons/Antigravity.svg' },
   { name: 'Kiro',           icon: 'icons/KiroIcon.svg' },
-  { name: 'Alibaba',        mono: 'Al', accent: '#ff6a00' },
+  { name: 'Qwen',           icon: 'icons/QwenIcon.svg' },
 ];
 
 const ProviderStrip = () => (
@@ -2394,7 +2394,7 @@ const FAQ = () => {
   const items = [
     {
       q: 'Which AI providers are supported?',
-      a: 'Claude (Pro / Max), Codex, Gemini, GitHub Copilot, Cursor, Amp, AWS Bedrock, Kimi, Mistral, Z.ai, MiniMax, Antigravity, Kiro, and Alibaba — 14 in total. We add support for new ones as the community asks.'
+      a: 'Claude (Pro / Max), Codex, Gemini, GitHub Copilot, Cursor, Amp, AWS Bedrock, Kimi, Mistral, Z.ai, MiniMax, Antigravity, Kiro, and Qwen — 14 in total. We add support for new ones as the community asks.'
     },
     {
       q: 'Does it work on macOS 14?',
