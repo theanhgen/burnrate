@@ -1287,22 +1287,78 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ========== Responsive ========== */
 @media (max-width: 880px) {
+  .shell { padding: 0 20px; }
+  .nav { padding: 16px 20px; }
   .nav-links { display: none; }
-  .feat-card { grid-template-columns: 1fr; }
+  .nav-cta { display: none; }
+
+  .hero { padding: 48px 0 0; text-align: left; }
+  .flame-row { justify-content: flex-start; }
+  .hero-eyebrow { justify-content: flex-start; }
+  .hero-sub { margin: 0 0 28px; text-align: left; font-size: 17px; }
+  .hero-ctas { justify-content: flex-start; }
+  .hero-meta { text-align: left; }
+
+  .hero-stage { height: 380px; margin-top: 36px; }
+  .macbar { display: none; }
+  .desktop { border-radius: 12px; top: 0; }
+  .popover-anchor { top: 16px; }
+  .mbm-popover { width: 300px; }
+
+  .section-provs, .section-features, .section-how { padding: 56px 0; }
+  .section-h2 { font-size: 26px; letter-spacing: -0.02em; }
+  .section-lede { font-size: 16px; }
+
+  .prov-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+
+  .feat-grid { gap: 16px; }
+  .feat-card { grid-template-columns: 1fr; border-radius: 16px; }
   .feat-card.reverse .feat-text { order: 1; }
   .feat-card.reverse .feat-visual { order: 2; }
-  .feat-text { padding: 32px 28px; }
-  .how-grid { grid-template-columns: 1fr; }
-  .prov-grid { grid-template-columns: repeat(4, 1fr); }
-  .hero-stage { height: 460px; }
-  .mbm-popover { width: 320px; }
-  .section-h2 { font-size: 28px; }
-  .cta-h { font-size: 30px; }
+  .feat-text { padding: 28px 24px; }
+  .feat-h3 { font-size: 20px; }
+  .feat-visual { min-height: 260px; }
+
+  .how-grid { grid-template-columns: 1fr; gap: 16px; }
+
+  .cta-section { padding: 56px 0; }
+  .cta-h { font-size: 26px; }
+  .cta-card { padding: 36px 24px; border-radius: 20px; }
+
+  .foot-row { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .foot-links { flex-wrap: wrap; gap: 14px; }
+  .foot-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
 }
+
 @media (max-width: 520px) {
-  .prov-grid { grid-template-columns: repeat(3, 1fr); }
-  .hero-stage { height: 420px; }
-  .mbm-popover { width: 290px; }
+  .shell { padding: 0 16px; }
+  .nav { padding: 14px 16px; }
+
+  .hero h1 { font-size: clamp(36px, 11vw, 56px); }
+  .hero-sub { font-size: 15px; }
+  .hero-ctas { flex-direction: column; align-items: stretch; }
+  .appstore-btn { justify-content: center; }
+  .brew-btn { justify-content: center; }
+
+  .hero-stage { height: 320px; }
+  .mbm-popover { width: 260px; }
+
+  .section-h2 { font-size: 22px; }
+  .prov-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .prov-mono { font-size: 14px; width: 36px; height: 36px; }
+  .prov-name { font-size: 10px; }
+
+  .feat-text { padding: 24px 20px; }
+  .feat-h3 { font-size: 18px; }
+  .feat-p { font-size: 14px; }
+
+  .how-step { padding: 20px; }
+  .how-num { width: 32px; height: 32px; font-size: 14px; }
+
+  .cta-h { font-size: 22px; }
+  .cta-p { font-size: 15px; }
+
+  .section-eyebrow { font-size: 10px; }
 }
 
 </style>
