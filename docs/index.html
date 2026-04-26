@@ -595,7 +595,7 @@ button { font-family: inherit; cursor: pointer; }
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.1;
-  margin: 0 0 12px;
+  margin: 0 auto 12px;
   max-width: 640px;
   text-wrap: balance;
 }
@@ -603,7 +603,7 @@ button { font-family: inherit; cursor: pointer; }
   font-size: 16px;
   color: var(--ink-2);
   max-width: 540px;
-  margin: 0 0 24px;
+  margin: 0 auto 24px;
   line-height: 1.5;
   letter-spacing: -0.01em;
 }
@@ -628,6 +628,8 @@ button { font-family: inherit; cursor: pointer; }
   padding: 8px 4px;
   border-radius: 10px;
   transition: background 0.2s;
+  text-decoration: none;
+  color: inherit;
 }
 .prov-tile:hover { background: var(--bg-2); }
 .prov-mono {
@@ -1231,7 +1233,7 @@ button { font-family: inherit; cursor: pointer; }
 /* ========== Footer ========== */
 .footer {
   border-top: 1px solid var(--line);
-  padding: 28px 0 40px;
+  padding: 36px 0 60px;
 }
 .foot-row {
   display: flex;
@@ -1903,31 +1905,36 @@ window.MenuBarMockup = MenuBarMockup;
 // Generic provider tile — original wordmarks rendered in a unified style
 // Avoids recreating any company's actual logo; uses initial-monogram tiles.
 
-const ProviderTile = ({ name, icon, mono, accent }) => (
-  <div className="prov-tile">
-    {icon
-      ? <div className="prov-icon"><img src={icon} alt={name} width="40" height="40"/></div>
-      : <div className="prov-mono" style={{ background: accent || '#1a1a1a', color: '#fff' }}>{mono}</div>
-    }
-    <div className="prov-name">{name}</div>
-  </div>
-);
+const ProviderTile = ({ name, icon, mono, accent, url }) => {
+  const inner = (
+    <>
+      {icon
+        ? <div className="prov-icon"><img src={icon} alt={name} width="40" height="40"/></div>
+        : <div className="prov-mono" style={{ background: accent || '#1a1a1a', color: '#fff' }}>{mono}</div>
+      }
+      <div className="prov-name">{name}</div>
+    </>
+  );
+  return url
+    ? <a className="prov-tile" href={url} target="_blank" rel="noreferrer noopener">{inner}</a>
+    : <div className="prov-tile">{inner}</div>;
+};
 
 const PROVIDERS = [
-  { name: 'Claude',         icon: 'icons/ClaudeIcon.svg' },
-  { name: 'Codex',          icon: 'icons/CodexIcon.svg' },
-  { name: 'Gemini',         icon: 'icons/GeminiIcon.svg' },
-  { name: 'Copilot',        icon: 'icons/CopilotIcon.png' },
-  { name: 'Cursor',         icon: 'icons/CursorIcon.svg' },
-  { name: 'Amp',            icon: 'icons/AmpCodeIcon.svg' },
-  { name: 'AWS Bedrock',    icon: 'icons/BedrockIcon.svg' },
-  { name: 'Kimi',           icon: 'icons/KimiIcon.png' },
-  { name: 'Mistral',        icon: 'icons/MistralIcon.png' },
-  { name: 'Z.ai',           icon: 'icons/ZaiIcon.svg' },
-  { name: 'MiniMax',        icon: 'icons/MiniMaxIcon.svg' },
+  { name: 'Claude',         icon: 'icons/ClaudeIcon.svg',    url: 'https://claude.ai' },
+  { name: 'Codex',          icon: 'icons/CodexIcon.svg',     url: 'https://platform.openai.com' },
+  { name: 'Gemini',         icon: 'icons/GeminiIcon.svg',    url: 'https://aistudio.google.com' },
+  { name: 'Copilot',        icon: 'icons/CopilotIcon.png',   url: 'https://github.com/features/copilot' },
+  { name: 'Cursor',         icon: 'icons/CursorIcon.svg',    url: 'https://cursor.com' },
+  { name: 'Amp',            icon: 'icons/AmpCodeIcon.svg',   url: 'https://ampcode.com' },
+  { name: 'AWS Bedrock',    icon: 'icons/BedrockIcon.svg',   url: 'https://aws.amazon.com/bedrock/' },
+  { name: 'Kimi',           icon: 'icons/KimiIcon.png',      url: 'https://kimi.ai' },
+  { name: 'Mistral',        icon: 'icons/MistralIcon.png',   url: 'https://mistral.ai' },
+  { name: 'Z.ai',           icon: 'icons/ZaiIcon.svg',       url: 'https://z.ai' },
+  { name: 'MiniMax',        icon: 'icons/MiniMaxIcon.svg',   url: 'https://minimax.io' },
   { name: 'Antigravity',    icon: 'icons/Antigravity.svg' },
-  { name: 'Kiro',           icon: 'icons/KiroIcon.svg' },
-  { name: 'Qwen',           icon: 'icons/QwenIcon.svg' },
+  { name: 'Kiro',           icon: 'icons/KiroIcon.svg',      url: 'https://kiro.dev' },
+  { name: 'Qwen',           icon: 'icons/QwenIcon.svg',      url: 'https://qwen.ai' },
 ];
 
 const ProviderStrip = () => (
