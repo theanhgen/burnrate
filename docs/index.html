@@ -119,7 +119,7 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ========== Hero ========== */
 .hero {
-  padding: 56px 0 80px;
+  padding: 36px 0 48px;
   text-align: center;
   position: relative;
 }
@@ -134,7 +134,7 @@ button { font-family: inherit; cursor: pointer; }
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
   font-family: var(--mono);
 }
 .hero-eyebrow .dot {
@@ -145,35 +145,21 @@ button { font-family: inherit; cursor: pointer; }
   box-shadow: 0 0 0 3px rgba(234,88,12,0.2);
 }
 
-/* Flame row decoration */
-.flame-row {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  margin-bottom: 28px;
-  opacity: 0.85;
-}
-.flame-row svg {
-  width: 22px;
-  height: 22px;
-}
-.flame-row svg:nth-child(odd) { transform: rotate(-4deg); }
-.flame-row svg:nth-child(even) { transform: rotate(3deg); }
 
 .hero h1 {
   font-size: clamp(48px, 8vw, 88px);
   font-weight: 600;
   letter-spacing: -0.04em;
   line-height: 0.95;
-  margin: 0 0 20px;
+  margin: 0 0 14px;
   font-feature-settings: 'ss01';
 }
 .hero-sub {
-  font-size: 19px;
+  font-size: 18px;
   line-height: 1.5;
   color: var(--ink-2);
   max-width: 540px;
-  margin: 0 auto 36px;
+  margin: 0 auto 22px;
   letter-spacing: -0.012em;
 }
 .hero-sub b { color: var(--ink); font-weight: 500; }
@@ -251,7 +237,7 @@ button { font-family: inherit; cursor: pointer; }
   font-family: var(--mono);
   font-size: 11px;
   color: var(--ink-3);
-  margin-top: 18px;
+  margin-top: 12px;
   letter-spacing: 0;
 }
 .hero-meta span + span::before {
@@ -262,9 +248,9 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ========== Hero stage ========== */
 .hero-stage {
-  margin-top: 56px;
+  margin-top: 36px;
   position: relative;
-  height: 540px;
+  height: 460px;
   display: flex;
   justify-content: center;
 }
@@ -590,7 +576,7 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ========== Provider Strip ========== */
 .section-provs {
-  padding: 80px 0 30px;
+  padding: 52px 0 20px;
   text-align: center;
 }
 .section-eyebrow {
@@ -609,7 +595,7 @@ button { font-family: inherit; cursor: pointer; }
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.1;
-  margin: 0 0 18px;
+  margin: 0 0 12px;
   max-width: 640px;
   text-wrap: balance;
 }
@@ -617,7 +603,7 @@ button { font-family: inherit; cursor: pointer; }
   font-size: 16px;
   color: var(--ink-2);
   max-width: 540px;
-  margin: 0 0 40px;
+  margin: 0 0 24px;
   line-height: 1.5;
   letter-spacing: -0.01em;
 }
@@ -626,13 +612,13 @@ button { font-family: inherit; cursor: pointer; }
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 16px;
-  padding: 28px;
+  padding: 20px;
   box-shadow: var(--shadow-sm);
 }
 .prov-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 18px 14px;
+  gap: 12px 10px;
 }
 .prov-tile {
   display: flex;
@@ -681,7 +667,7 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ========== Features ========== */
 .section-features {
-  padding: 100px 0 40px;
+  padding: 60px 0 28px;
 }
 .feat-grid {
   display: grid;
@@ -704,7 +690,7 @@ button { font-family: inherit; cursor: pointer; }
 .feat-card.reverse .feat-visual { order: 1; }
 
 .feat-text {
-  padding: 44px 40px;
+  padding: 32px 32px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -773,10 +759,10 @@ button { font-family: inherit; cursor: pointer; }
     linear-gradient(135deg, #1a1622, #0f0d14);
   display: grid;
   place-items: center;
-  padding: 36px;
+  padding: 24px;
   position: relative;
   overflow: hidden;
-  min-height: 360px;
+  min-height: 280px;
 }
 .feat-visual::before {
   content: '';
@@ -1000,7 +986,7 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ========== How it works ========== */
 .section-how {
-  padding: 100px 0 60px;
+  padding: 60px 0 32px;
 }
 .how-grid {
   display: grid;
@@ -1013,7 +999,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .how-step {
   background: var(--card);
-  padding: 36px 32px;
+  padding: 28px 24px;
   position: relative;
 }
 .how-num {
@@ -1127,7 +1113,7 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ========== FAQ ========== */
 .section-faq {
-  padding: 80px 0;
+  padding: 52px 0;
 }
 .faq-list {
   max-width: 720px;
@@ -1196,13 +1182,13 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ========== CTA bottom ========== */
 .section-cta {
-  padding: 80px 0;
+  padding: 52px 0;
   text-align: center;
 }
 .cta-card {
   background: linear-gradient(180deg, #1a1622, #0f0d14);
   border-radius: 24px;
-  padding: 64px 40px;
+  padding: 44px 32px;
   position: relative;
   overflow: hidden;
 }
@@ -1245,7 +1231,7 @@ button { font-family: inherit; cursor: pointer; }
 /* ========== Footer ========== */
 .footer {
   border-top: 1px solid var(--line);
-  padding: 36px 0 60px;
+  padding: 28px 0 40px;
 }
 .foot-row {
   display: flex;
@@ -1309,7 +1295,6 @@ button { font-family: inherit; cursor: pointer; }
   .nav-cta { display: none; }
 
   .hero { padding: 48px 0 0; text-align: left; }
-  .flame-row { justify-content: flex-start; }
   .hero-eyebrow { justify-content: flex-start; }
   .hero-sub { margin: 0 0 28px; text-align: left; font-size: 17px; }
   .hero-ctas { justify-content: flex-start; }
@@ -1321,7 +1306,7 @@ button { font-family: inherit; cursor: pointer; }
   .popover-anchor { top: 16px; }
   .mbm-popover { width: 300px; }
 
-  .section-provs, .section-features, .section-how { padding: 56px 0; }
+  .section-provs, .section-features, .section-how { padding: 40px 0; }
   .section-h2 { font-size: 26px; letter-spacing: -0.02em; }
   .section-lede { font-size: 16px; }
 
@@ -1337,7 +1322,7 @@ button { font-family: inherit; cursor: pointer; }
 
   .how-grid { grid-template-columns: 1fr; gap: 16px; }
 
-  .cta-section { padding: 56px 0; }
+  .cta-section { padding: 40px 0; }
   .cta-h { font-size: 26px; }
   .cta-card { padding: 36px 24px; border-radius: 20px; }
 
@@ -2165,11 +2150,6 @@ const Nav = () => (
 const Hero = ({ accent }) => (
   <section className="hero">
     <div className="shell">
-      <div className="flame-row">
-        {Array.from({ length: 9 }).map((_, i) => (
-          <FlameIcon key={i} size={22}/>
-        ))}
-      </div>
 
       <div className="hero-eyebrow">
         <span className="dot"/>
