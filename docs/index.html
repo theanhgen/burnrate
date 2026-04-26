@@ -273,6 +273,8 @@ button { font-family: inherit; cursor: pointer; }
   height: 520px;
   display: flex;
   justify-content: center;
+  overflow: hidden;
+  border-radius: 0 0 14px 14px;
 }
 .macbar {
   position: absolute;
@@ -1952,7 +1954,7 @@ const ProviderTile = ({ name, icon, mono, accent, url }) => {
   const inner = (
     <>
       {icon
-        ? <div className="prov-icon"><img src={icon} alt={name} width="40" height="40"/></div>
+        ? <div className="prov-icon"><img src={icon} alt="" width="40" height="40" aria-hidden="true" /></div>
         : <div className="prov-mono" style={{ background: accent || '#1a1a1a', color: '#fff' }}>{mono}</div>
       }
       <div className="prov-name">{name}</div>
@@ -1964,20 +1966,20 @@ const ProviderTile = ({ name, icon, mono, accent, url }) => {
 };
 
 const PROVIDERS = [
-  { name: 'Claude',         icon: 'icons/ClaudeIcon.svg',    url: 'https://claude.ai' },
-  { name: 'Codex',          icon: 'icons/CodexIcon.svg',     url: 'https://platform.openai.com' },
+  { name: 'Claude',         icon: 'icons/ClaudeIcon.svg',    url: 'https://console.anthropic.com/settings/billing' },
+  { name: 'Codex',          icon: 'icons/CodexIcon.svg',     url: 'https://platform.openai.com/usage' },
   { name: 'Gemini',         icon: 'icons/GeminiIcon.svg',    url: 'https://aistudio.google.com' },
-  { name: 'Copilot',        icon: 'icons/CopilotIcon.png',   url: 'https://github.com/features/copilot' },
-  { name: 'Cursor',         icon: 'icons/CursorIcon.svg',    url: 'https://cursor.com' },
-  { name: 'Amp',            icon: 'icons/AmpCodeIcon.svg',   url: 'https://ampcode.com' },
-  { name: 'AWS Bedrock',    icon: 'icons/BedrockIcon.svg',   url: 'https://aws.amazon.com/bedrock/' },
-  { name: 'Kimi',           icon: 'icons/KimiIcon.png',      url: 'https://kimi.ai' },
-  { name: 'Mistral',        icon: 'icons/MistralIcon.png',   url: 'https://mistral.ai' },
-  { name: 'Z.ai',           icon: 'icons/ZaiIcon.svg',       url: 'https://z.ai' },
-  { name: 'MiniMax',        icon: 'icons/MiniMaxIcon.svg',   url: 'https://minimax.io' },
+  { name: 'Copilot',        icon: 'icons/CopilotIcon.png',   url: 'https://github.com/settings/copilot/features' },
+  { name: 'Cursor',         icon: 'icons/CursorIcon.svg',    url: 'https://www.cursor.com/settings' },
+  { name: 'Amp',            icon: 'icons/AmpCodeIcon.svg',   url: 'https://ampcode.com/settings' },
+  { name: 'AWS Bedrock',    icon: 'icons/BedrockIcon.svg',   url: 'https://console.aws.amazon.com/bedrock/home' },
+  { name: 'Kimi',           icon: 'icons/KimiIcon.png',      url: 'https://www.kimi.com/code/console' },
+  { name: 'Mistral',        icon: 'icons/MistralIcon.png',   url: 'https://console.mistral.ai' },
+  { name: 'Z.ai',           icon: 'icons/ZaiIcon.svg',       url: 'https://z.ai/subscribe' },
+  { name: 'MiniMax',        icon: 'icons/MiniMaxIcon.svg',   url: 'https://platform.minimax.io/user-center/payment/coding-plan' },
   { name: 'Antigravity',    icon: 'icons/Antigravity.svg' },
-  { name: 'Kiro',           icon: 'icons/KiroIcon.svg',      url: 'https://kiro.dev' },
-  { name: 'Qwen',           icon: 'icons/QwenIcon.svg',      url: 'https://qwen.ai' },
+  { name: 'Kiro',           icon: 'icons/KiroIcon.svg',      url: 'https://app.kiro.dev/account/usage' },
+  { name: 'Qwen',           icon: 'icons/QwenIcon.svg',      url: 'https://modelstudio.console.alibabacloud.com/ap-southeast-1/?tab=coding-plan#/efm/detail' },
 ];
 
 const ProviderStrip = () => (
