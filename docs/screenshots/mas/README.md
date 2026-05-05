@@ -22,12 +22,19 @@ Other valid App Store sizes: `1440x900`, `2560x1600`, `2880x1800` (all 16:10).
 | `04-settings.png` | Settings panel | Provider toggle list |
 | `05-burn-rate.png` | Burn-rate pace warning active | Warning state with threshold |
 
-## MAS Provider Note
+## MAS Provider Note — Action Required Before Submission
+
+> **The current screenshots are NOT ready for App Store submission.**
 
 Screenshots were captured in demo mode using `BURNRATE_DEMO=1`. The demo hero set
-includes "Kimi" which is **not available in the MAS build**. Before final App Store
-submission, update `DemoProvider.createHeroSet()` to replace the Kimi provider with
-an MAS-available provider (e.g. Bedrock or MiniMax), then recapture:
+includes "Kimi" which is **not available in the MAS build**. Submitting these screenshots
+would misrepresent the app's capabilities to Apple reviewers and users.
+
+Before final App Store submission, update `DemoProvider.createHeroSet()` to replace
+the Kimi provider with an MAS-available provider (e.g. Bedrock or MiniMax), then recapture:
+
+**MAS-approved providers for screenshots:** Claude, Codex, Gemini, GitHub Copilot, AWS Bedrock, MiniMax, Alibaba Coding Plan.
+**Providers to exclude from all screenshots:** Antigravity, Z.ai, Amp Code, Kimi, Kiro, Cursor, Mistral.
 
 ```swift
 // In Sources/Infrastructure/Demo/DemoProvider.swift
