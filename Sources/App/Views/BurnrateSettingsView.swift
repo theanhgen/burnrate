@@ -1,5 +1,8 @@
 import SwiftUI
 import Domain
+#if MAS_BUILD
+import Infrastructure
+#endif
 
 /// Settings view adapted from burnrate's design.
 /// Provides provider toggles, display options, and theme selection.
@@ -99,6 +102,12 @@ struct BurnrateSettingsView: View {
                         .foregroundStyle(.tertiary)
                 }
 
+                #if MAS_BUILD
+                Divider()
+
+                folderAccessSection
+                #endif
+
                 Spacer()
 
                 Text("Auto-detects CLI auth tokens.\nNo API keys or manual setup needed.")
@@ -141,4 +150,41 @@ struct BurnrateSettingsView: View {
         if provider.lastError != nil { return "Error" }
         return "Not connected"
     }
+
+    #if MAS_BUILD
+    private var folderAccessSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Folder Access")
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundStyle(.secondary)
+
+            let bm = SecurityScopedBookmarkManager()
+            let folderRows: [(id: String, name: String, path: String)] = [
+                (BookmarkFolderID.claude, "Claude", "~/.claude"),
+                (BookmarkFolderID.codex,  "Codex",  "~/.codex"),
+                (BookmarkFolderID.gemini, "Gemini", "~/.gemini"),
+            ]
+
+            ForEach(folderRows, id: \.id) { row in
+                FolderAccessButton(
+                    folderID: row.id,
+                    folderPath: row.path,
+                    providerName: row.name,
+                    bookmarkManager: bm
+                )
+            }
+
+            Button("Reconnect All Providers") {
+                let bookmarkManager = SecurityScopedBookmarkManager()
+                MASOnboardingWindowController.shared.open(bookmarkManager: bookmarkManager) {
+                    MASOnboardingManager(bookmarkManager: SecurityScopedBookmarkManager()).markComplete()
+                }
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.small)
+            .font(.system(size: 12))
+            .help("Re-open the setup assistant to re-grant folder access")
+        }
+    }
+    #endif
 }

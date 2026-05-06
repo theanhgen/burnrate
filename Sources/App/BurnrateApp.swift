@@ -14,6 +14,10 @@ extension Notification.Name {
 
 @main
 struct BurnrateApp: App {
+    #if MAS_BUILD
+    @NSApplicationDelegateAdaptor(MASLaunchDelegate.self) private var masDelegate
+    #endif
+
     /// The main domain service - monitors all AI providers
     /// This is the single source of truth for providers and their state
     @State private var monitor: QuotaMonitor
