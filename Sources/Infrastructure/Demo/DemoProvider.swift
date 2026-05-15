@@ -61,11 +61,11 @@ public final class DemoProvider: AIProvider, @unchecked Sendable {
                 ]
             ),
             DemoProvider(
-                id: "kimi",
-                name: "Kimi",
-                iconName: "leaf",
+                id: "bedrock",
+                name: "AWS Bedrock",
+                iconName: "cloud",
                 quotas: [
-                    UsageQuota(percentRemaining: 5, quotaType: .session, providerId: "kimi")
+                    UsageQuota(percentRemaining: 5, quotaType: .session, providerId: "bedrock")
                 ]
             )
         ]

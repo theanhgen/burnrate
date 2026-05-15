@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.0] - 2026-05-06
+
+### Added
+- **Mac App Store release (MAS Lite)** — first App Store submission of burnrate, versioned independently from the direct-download track.
+- Supports 7 providers in the sandboxed MAS build: Claude, Codex, Gemini, GitHub Copilot, AWS Bedrock, MiniMax, and Alibaba.
+- MAS onboarding flow grants Security-Scoped Bookmarks to `~/.claude`, `~/.codex`, and `~/.gemini` without requiring full disk access.
+
+### Notes
+- Direct-download (full) build continues its own version track from v0.4.57.
+- MAS build uses `MAS_BUILD` compilation flag and the `burnrate-mas` Xcode scheme.
+
+---
+
 ## [0.4.57] - 2026-03-23
 
 ### Changed

@@ -114,13 +114,16 @@ jobs:
           security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
 
-          # Download Apple certificate chain
+          # Download Apple certificate chain (G3 for older certs, G6 for certs issued 2023+)
           curl -sL -o "$RUNNER_TEMP/AppleRootCA-G2.cer" \
             "https://www.apple.com/certificateauthority/AppleRootCA-G2.cer"
           curl -sL -o "$RUNNER_TEMP/AppleWWDRCAG3.cer" \
             "https://www.apple.com/certificateauthority/AppleWWDRCAG3.cer"
+          curl -sL -o "$RUNNER_TEMP/AppleWWDRCAG6.cer" \
+            "https://www.apple.com/certificateauthority/AppleWWDRCAG6.cer"
           security import "$RUNNER_TEMP/AppleRootCA-G2.cer" -k "$KEYCHAIN_PATH" -T /usr/bin/codesign 2>&1 || true
           security import "$RUNNER_TEMP/AppleWWDRCAG3.cer"  -k "$KEYCHAIN_PATH" -T /usr/bin/codesign 2>&1 || true
+          security import "$RUNNER_TEMP/AppleWWDRCAG6.cer"  -k "$KEYCHAIN_PATH" -T /usr/bin/codesign 2>&1 || true
 
           # Import Mac App Store certificates (Application + Installer, both in the P12)
           printf '%s' "$APPLE_MAS_CERTIFICATE_P12" | base64 -D > "$RUNNER_TEMP/mas-cert.p12"
