@@ -2,8 +2,8 @@ import AppIntents
 import WidgetKit
 
 public struct RefreshIntent: AppIntent {
-    public static var title: LocalizedStringResource = "Refresh Quotas"
-    public static var description = IntentDescription("Triggers a refresh of AI provider quotas.")
+    public static let title: LocalizedStringResource = "Refresh Quotas"
+    public static let description = IntentDescription("Triggers a refresh of AI provider quotas.")
 
     public init() {}
 

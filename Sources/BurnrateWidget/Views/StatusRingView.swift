@@ -185,7 +185,7 @@ struct StatusRingView: View {
                                 Text("Cost:")
                                     .font(.caption.weight(.medium))
                                 Spacer()
-                                Text(cost)
+                                Text(cost.formattedCost)
                                     .font(.caption.monospacedDigit())
                             }
                         }
