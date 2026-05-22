@@ -17,10 +17,8 @@
     <!-- Persist security-scoped bookmarks across app launches -->
     <key>com.apple.security.files.bookmarks.app-scope</key>
     <true/>
-    <!-- Application Group for data sharing between App and Widgets -->
-    <key>com.apple.security.application-groups</key>
-    <array>
-        <string>group.com.nguyentheanh.burnrate</string>
-    </array>
+    <!-- App Groups omitted: burnrate-mas does not embed a widget extension.
+         Add back (with registered App Group in Developer Portal) when the MAS
+         widget extension target is added. -->
 </dict>
 </plist>

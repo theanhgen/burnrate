@@ -186,7 +186,7 @@ jobs:
             ARCHS=arm64 \
             ONLY_ACTIVE_ARCH=NO \
             CODE_SIGN_STYLE=Manual \
-            CODE_SIGN_IDENTITY="3rd Party Mac Developer Application" \
+            CODE_SIGN_IDENTITY="Apple Distribution" \
             PROVISIONING_PROFILE_SPECIFIER="$PP_NAME" \
             DEVELOPMENT_TEAM="${{ vars.DEVELOPMENT_TEAM }}"
 
@@ -204,7 +204,7 @@ jobs:
             <key>destination</key>
             <string>export</string>
             <key>signingCertificate</key>
-            <string>3rd Party Mac Developer Application</string>
+            <string>Apple Distribution</string>
             <key>installerSigningCertificate</key>
             <string>3rd Party Mac Developer Installer</string>
             <key>provisioningProfiles</key>

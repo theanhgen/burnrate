@@ -195,6 +195,9 @@ let project = Project(
                 base: [
                     "SWIFT_STRICT_CONCURRENCY": "complete",
                     "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
+                    "CODE_SIGN_STYLE": "Automatic",
+                    "DEVELOPMENT_TEAM": "28DMV2MR8T",
+                    "CODE_SIGN_IDENTITY": "",
                 ]
             )
         ),
@@ -227,6 +230,9 @@ let project = Project(
             settings: .settings(
                 base: [
                     "SWIFT_STRICT_CONCURRENCY": "complete",
+                    "CODE_SIGN_STYLE": "Automatic",
+                    "DEVELOPMENT_TEAM": "28DMV2MR8T",
+                    "CODE_SIGN_IDENTITY": "",
                 ]
             )
         ),
@@ -304,6 +310,11 @@ let project = Project(
                     "ENABLE_PREVIEWS": "YES",
                     "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
                     "PRODUCT_NAME": "burnrate",
+                    "CODE_SIGN_STYLE": "Automatic",
+                    "DEVELOPMENT_TEAM": "28DMV2MR8T",
+                    // Empty string clears Tuist's default CODE_SIGN_IDENTITY="-" so
+                    // Automatic signing can select the identity for each configuration.
+                    "CODE_SIGN_IDENTITY": "",
                 ],
                 debug: [
                     "SWIFT_ACTIVE_COMPILATION_CONDITIONS": "DEBUG MAS_BUILD",
