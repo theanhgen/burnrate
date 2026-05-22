@@ -212,7 +212,7 @@ let project = Project(
             infoPlist: .extendingDefault(with: [
                 "CFBundleDisplayName": .string("burnrate Widget"),
                 "CFBundleShortVersionString": .string("0.1.0"),
-                "CFBundleVersion": .string("1"),
+                "CFBundleVersion": .string("2"),
                 "NSExtension": .dictionary([
                     "NSExtensionPointIdentifier": .string("com.apple.widgetkit-extension"),
                 ]),
@@ -317,10 +317,10 @@ let project = Project(
                     "CODE_SIGN_IDENTITY": "",
                 ],
                 debug: [
-                    "SWIFT_ACTIVE_COMPILATION_CONDITIONS": "DEBUG MAS_BUILD",
+                    "SWIFT_ACTIVE_COMPILATION_CONDITIONS": "DEBUG MAS_BUILD ENABLE_CLOUDSYNC",
                 ],
                 release: [
-                    "SWIFT_ACTIVE_COMPILATION_CONDITIONS": "MAS_BUILD",
+                    "SWIFT_ACTIVE_COMPILATION_CONDITIONS": "MAS_BUILD ENABLE_CLOUDSYNC",
                 ]
             )
         ),

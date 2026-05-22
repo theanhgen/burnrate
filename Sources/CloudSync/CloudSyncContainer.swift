@@ -27,6 +27,8 @@ public actor CloudSyncContainer {
         } catch let error as CKError where error.code == .serverRejectedRequest {
             // Zone already exists
             zoneCreated = true
+        } catch let error as CKError where error.code == .notAuthenticated {
+            throw CloudSyncError.noAccount
         } catch {
             throw CloudSyncError.zoneCreationFailed(underlying: error)
         }

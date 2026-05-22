@@ -10,24 +10,24 @@ struct FolderAccessButton: View {
     let providerName: String
     let bookmarkManager: any BookmarkManaging
 
-    @Environment(\.appTheme) private var theme
     @State private var hasAccess: Bool = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .center, spacing: 8) {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(alignment: .center, spacing: 10) {
                 Image(systemName: hasAccess ? "checkmark.shield.fill" : "folder.badge.questionmark")
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundStyle(hasAccess ? .green : theme.textSecondary)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(hasAccess ? Color.green : Color.secondary)
+                    .frame(width: 20)
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Credential Folder Access")
-                        .font(.system(size: 11, weight: .semibold, design: theme.fontDesign))
-                        .foregroundStyle(theme.textPrimary)
+                    Text(providerName)
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(Color.primary)
 
                     Text(folderPath)
                         .font(.system(size: 10, weight: .medium, design: .monospaced))
-                        .foregroundStyle(theme.textTertiary)
+                        .foregroundStyle(Color.secondary)
                 }
 
                 Spacer()
@@ -38,8 +38,8 @@ struct FolderAccessButton: View {
                         hasAccess = false
                     }
                     .buttonStyle(.plain)
-                    .font(.system(size: 10, weight: .medium, design: theme.fontDesign))
-                    .foregroundStyle(theme.textTertiary)
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundStyle(Color.secondary)
                 } else {
                     Button("Grant Access") {
                         let targetURL = URL(fileURLWithPath: NSHomeDirectory())
@@ -54,15 +54,15 @@ struct FolderAccessButton: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .controlSize(.small)
-                    .font(.system(size: 10, weight: .semibold, design: theme.fontDesign))
+                    .font(.system(size: 10, weight: .semibold))
                 }
             }
 
-            if !hasAccess {
-                Text("burnrate needs access to read your \(providerName) credentials.")
-                    .font(.system(size: 10, weight: .regular, design: theme.fontDesign))
-                    .foregroundStyle(theme.textTertiary)
-            }
+            Text(hasAccess
+                 ? "Access granted — burnrate can read your \(providerName) credentials."
+                 : "burnrate needs access to read your \(providerName) credentials.")
+                .font(.system(size: 10, weight: .regular))
+                .foregroundStyle(hasAccess ? Color.secondary : Color(nsColor: .systemOrange))
         }
         .padding(.vertical, 6)
         .onAppear {

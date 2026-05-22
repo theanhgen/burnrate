@@ -24,8 +24,10 @@ final class SnapshotViewModel {
         do {
             snapshots = try await reader.fetchAll()
             WidgetCenter.shared.reloadAllTimelines()
+        } catch CloudSyncError.noAccount {
+            errorMessage = "Sign into iCloud in Settings to enable sync."
         } catch {
-            errorMessage = "Could not load data. Make sure you're signed into iCloud."
+            errorMessage = "Could not load data from iCloud. Check your connection and try again."
         }
     }
 

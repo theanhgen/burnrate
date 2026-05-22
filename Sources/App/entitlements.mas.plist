@@ -17,8 +17,14 @@
     <!-- Persist security-scoped bookmarks across app launches -->
     <key>com.apple.security.files.bookmarks.app-scope</key>
     <true/>
-    <!-- App Groups omitted: burnrate-mas does not embed a widget extension.
-         Add back (with registered App Group in Developer Portal) when the MAS
-         widget extension target is added. -->
+    <!-- iCloud / CloudKit for macOS → iOS quota sync -->
+    <key>com.apple.developer.icloud-container-identifiers</key>
+    <array>
+        <string>iCloud.com.nguyentheanh.burnrate</string>
+    </array>
+    <key>com.apple.developer.icloud-services</key>
+    <array>
+        <string>CloudKit</string>
+    </array>
 </dict>
 </plist>
