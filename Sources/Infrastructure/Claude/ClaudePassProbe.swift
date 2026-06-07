@@ -64,7 +64,7 @@ public final class ClaudePassProbe: ClaudePassProbing, @unchecked Sendable {
         do {
             result = try cliExecutor.execute(
                 binary: claudeBinary,
-                args: ["/passes", "--allowed-tools", "", "--mcp-config", "{}", "--strict-mcp-config"],
+                args: ["/passes", "--allowed-tools", "", "--mcp-config", "{\"mcpServers\":{}}", "--strict-mcp-config"],
                 input: "",
                 timeout: timeout,
                 workingDirectory: workingDir,

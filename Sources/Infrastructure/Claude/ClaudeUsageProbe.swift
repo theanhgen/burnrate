@@ -63,7 +63,7 @@ public final class ClaudeUsageProbe: UsageProbe, @unchecked Sendable {
         do {
             usageResult = try cliExecutor.execute(
                 binary: claudeBinary,
-                args: ["/usage", "--allowed-tools", "", "--mcp-config", "{}", "--strict-mcp-config"],
+                args: ["/usage", "--allowed-tools", "", "--mcp-config", "{\"mcpServers\":{}}", "--strict-mcp-config"],
                 input: "",
                 timeout: timeout,
                 workingDirectory: workingDir,
@@ -127,7 +127,7 @@ public final class ClaudeUsageProbe: UsageProbe, @unchecked Sendable {
         do {
             costResult = try cliExecutor.execute(
                 binary: claudeBinary,
-                args: ["/cost", "--allowed-tools", "", "--mcp-config", "{}", "--strict-mcp-config"],
+                args: ["/cost", "--allowed-tools", "", "--mcp-config", "{\"mcpServers\":{}}", "--strict-mcp-config"],
                 input: "",
                 timeout: timeout,
                 workingDirectory: workingDir,

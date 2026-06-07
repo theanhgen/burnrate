@@ -48,7 +48,13 @@ struct BurnrateApp: App {
     #if ENABLE_CLOUDSYNC
     /// Pushes usage snapshots to CloudKit for iOS companion app
     private let cloudSyncWriter = CloudKitSnapshotWriter()
+
+    /// Tracks in-flight CloudKit sync so we can cancel before starting a new one
+    @State private var cloudSyncTask: Task<Void, Never>?
     #endif
+
+    /// Hash of the last widget data written — used to skip redundant WidgetKit reloads
+    @State private var lastWidgetHash: Int = 0
 
     #if ENABLE_SPARKLE
     /// Sparkle updater for auto-updates
@@ -310,13 +316,47 @@ struct BurnrateApp: App {
     }
     #endif
 
+    private func afterRefresh() {
+        writeWidgetData()
+        BurnrateSnapshotStore.shared.save(from: monitor)
+        #if ENABLE_CLOUDSYNC
+        let snapshots = monitor.enabledProviders.compactMap(\.snapshot)
+        if !snapshots.isEmpty {
+            let writer = cloudSyncWriter
+            cloudSyncTask?.cancel()
+            cloudSyncTask = Task.detached {
+                do {
+                    try await writer.publish(snapshots)
+                } catch {
+                    AppLog.network.warning("CloudKit sync failed: \(error.localizedDescription)")
+                }
+            }
+        }
+        #endif
+    }
+
     private func writeWidgetData() {
         let snapshots = monitor.enabledProviders
             .compactMap(\.snapshot)
             .filter { !$0.quotas.isEmpty || $0.costUsage != nil }
             .map { WidgetProviderSnapshot(from: $0) }
+        let newHash = widgetDataFingerprint(snapshots)
+        guard newHash != lastWidgetHash else { return }
+        lastWidgetHash = newHash
         WidgetDataStore().write(snapshots)
         WidgetCenter.shared.reloadAllTimelines()
+    }
+
+    private func widgetDataFingerprint(_ snapshots: [WidgetProviderSnapshot]) -> Int {
+        var hasher = Hasher()
+        for s in snapshots {
+            hasher.combine(s.providerId)
+            hasher.combine(s.overallStatus)
+            hasher.combine(s.primaryQuota?.percentRemaining)
+            hasher.combine(s.secondaryQuota?.percentRemaining)
+            hasher.combine(s.cost?.formattedCost)
+        }
+        return hasher.finalize()
     }
 
     var body: some Scene {
@@ -326,28 +366,10 @@ struct BurnrateApp: App {
                 .task {
                     // Initial refresh + start monitoring
                     await monitor.refreshAll()
-                    writeWidgetData()
+                    afterRefresh()
                     for await _ in monitor.startMonitoring(interval: .seconds(150)) {
-                        writeWidgetData()
+                        afterRefresh()
                     }
-                }
-                .task(id: "snapshot-save") {
-                    // Save snapshots after each refresh cycle
-                    BurnrateSnapshotStore.shared.save(from: monitor)
-
-                    #if ENABLE_CLOUDSYNC
-                    // Push to CloudKit for iOS companion + widgets (best-effort)
-                    let snapshots = monitor.enabledProviders.compactMap(\.snapshot)
-                    if !snapshots.isEmpty {
-                        Task.detached {
-                            do {
-                                try await cloudSyncWriter.publish(snapshots)
-                            } catch {
-                                AppLog.network.warning("CloudKit sync failed: \(error.localizedDescription)")
-                            }
-                        }
-                    }
-                    #endif
                 }
         } label: {
             BurnrateMenuBarLabel(monitor: monitor)

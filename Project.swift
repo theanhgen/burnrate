@@ -128,14 +128,16 @@ let project = Project(
                     "SWIFT_STRICT_CONCURRENCY": "complete",
                     "ENABLE_DEBUG_DYLIB": "YES",
                     "ENABLE_PREVIEWS": "YES",
-                    "CODE_SIGN_IDENTITY": "-",
+                    "CODE_SIGN_STYLE": "Automatic",
+                    "DEVELOPMENT_TEAM": "28DMV2MR8T",
+                    "CODE_SIGN_IDENTITY": "",
                     "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
                 ],
                 debug: [
-                    "SWIFT_ACTIVE_COMPILATION_CONDITIONS": "DEBUG ENABLE_SPARKLE",
+                    "SWIFT_ACTIVE_COMPILATION_CONDITIONS": "DEBUG ENABLE_SPARKLE ENABLE_CLOUDSYNC",
                 ],
                 release: [
-                    "SWIFT_ACTIVE_COMPILATION_CONDITIONS": "ENABLE_SPARKLE",
+                    "SWIFT_ACTIVE_COMPILATION_CONDITIONS": "ENABLE_SPARKLE ENABLE_CLOUDSYNC",
                 ]
             )
         ),

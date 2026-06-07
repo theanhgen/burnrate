@@ -28,6 +28,9 @@ final class BurnrateSnapshotStore {
 
     let container: ModelContainer
 
+    private var lastSavedValues: [String: (session: Int, weekly: Int)] = [:]
+    private var lastPruneDate: Date = .distantPast
+
     private init() {
         do {
             let schema = Schema([UsageSnapshotRecord.self])
@@ -42,11 +45,19 @@ final class BurnrateSnapshotStore {
         }
     }
 
-    /// Save current provider states from QuotaMonitor
+    /// Save current provider states from QuotaMonitor.
+    /// Skips insert when values are unchanged since the previous save.
+    /// Prunes records older than 30 days once per day.
     func save(from monitor: QuotaMonitor) {
         let now = Date().timeIntervalSince1970
         let context = container.mainContext
 
+        if Date().timeIntervalSince(lastPruneDate) > 86400 {
+            lastPruneDate = Date()
+            pruneOldRecords(before: now - 30 * 24 * 3600, context: context)
+        }
+
+        var didInsert = false
         for provider in monitor.enabledProviders {
             guard let snapshot = provider.snapshot else { continue }
 
@@ -58,18 +69,35 @@ final class BurnrateSnapshotStore {
                 session = Int(lowest.percentUsed)
             }
 
-            // Only save if there's actual data
             guard session > 0 || weekly > 0 else { continue }
 
-            let record = UsageSnapshotRecord(
+            // Skip insert if nothing changed since last save
+            if let last = lastSavedValues[provider.id],
+               last.session == session, last.weekly == weekly {
+                continue
+            }
+            lastSavedValues[provider.id] = (session: session, weekly: weekly)
+
+            context.insert(UsageSnapshotRecord(
                 ts: now,
                 provider: provider.id,
                 session: session,
                 weekly: weekly
-            )
-            context.insert(record)
+            ))
+            didInsert = true
         }
 
+        if didInsert {
+            try? context.save()
+        }
+    }
+
+    private func pruneOldRecords(before cutoff: TimeInterval, context: ModelContext) {
+        let descriptor = FetchDescriptor<UsageSnapshotRecord>(
+            predicate: #Predicate<UsageSnapshotRecord> { $0.ts < cutoff }
+        )
+        guard let old = try? context.fetch(descriptor), !old.isEmpty else { return }
+        old.forEach { context.delete($0) }
         try? context.save()
     }
 

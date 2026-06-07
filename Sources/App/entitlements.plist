@@ -17,5 +17,14 @@
     <array>
         <string>group.com.nguyentheanh.burnrate</string>
     </array>
+    <!-- CloudKit for iOS companion sync -->
+    <key>com.apple.developer.icloud-container-identifiers</key>
+    <array>
+        <string>iCloud.com.nguyentheanh.burnrate</string>
+    </array>
+    <key>com.apple.developer.icloud-services</key>
+    <array>
+        <string>CloudKit</string>
+    </array>
 </dict>
 </plist>
