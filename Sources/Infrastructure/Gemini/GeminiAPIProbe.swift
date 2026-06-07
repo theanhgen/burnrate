@@ -63,9 +63,12 @@ internal struct GeminiAPIProbe {
             do {
                 try await refreshTokenViaCLI()
             } catch ProbeError.cliNotFound {
-                // If CLI is not available, we can't refresh - propagate original auth error
                 AppLog.probes.warning("Gemini: CLI not available for token refresh, authentication required")
                 throw ProbeError.authenticationRequired
+            } catch {
+                // CLI may have timed out or exited with an error but still written a fresh
+                // token to disk (refresh happens at startup, before any prompt is processed).
+                AppLog.probes.warning("Gemini: CLI exited with error (\(error.localizedDescription)), retrying API anyway")
             }
             AppLog.probes.info("Gemini: Retrying API probe after token refresh...")
             do {
@@ -151,20 +154,22 @@ internal struct GeminiAPIProbe {
     }
 
     #if !MAS_BUILD
-    /// Runs the Gemini CLI briefly to trigger OAuth token refresh.
-    /// The CLI handles token refresh automatically when it starts up.
+    /// Runs the Gemini CLI in non-interactive mode to trigger OAuth token refresh.
+    /// The CLI refreshes the token on startup and writes it back to oauth_creds.json.
     private func refreshTokenViaCLI() async throws {
         guard cliExecutor.locate("gemini") != nil else {
             AppLog.probes.error("Gemini CLI not found, cannot refresh token")
             throw ProbeError.cliNotFound("gemini")
         }
 
-        AppLog.probes.debug("Gemini: Running CLI to refresh OAuth token...")
+        AppLog.probes.debug("Gemini: Running CLI (non-interactive) to refresh OAuth token...")
 
-        _ = try cliExecutor.execute(
+        // Use -p (headless/non-interactive) so the CLI exits immediately after startup.
+        // The token refresh happens during initialization before any prompt is processed.
+        _ = try? cliExecutor.execute(
             binary: "gemini",
-            args: [],
-            input: "/quit\n",
+            args: ["-p", ""],
+            input: "",
             timeout: 15.0,
             workingDirectory: nil,
             autoResponses: [:]
@@ -172,7 +177,7 @@ internal struct GeminiAPIProbe {
 
         try await clock.sleep(nanoseconds: 1_500_000_000)
 
-        AppLog.probes.debug("Gemini: CLI token refresh completed")
+        AppLog.probes.debug("Gemini: CLI token refresh attempt completed")
     }
     #endif
 

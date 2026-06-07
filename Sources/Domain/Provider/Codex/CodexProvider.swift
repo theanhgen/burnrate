@@ -130,6 +130,19 @@ public final class CodexProvider: AIProvider, @unchecked Sendable {
             lastError = nil
             return snapshot!
         } catch {
+            // When RPC mode fails and an API probe is available, fall back automatically.
+            // The API probe hits chatgpt.com/backend-api directly without the codex CLI.
+            if probeMode == .rpc, let api = apiProbe {
+                do {
+                    let fallbackSnapshot = try await api.probe()
+                    snapshot = await attachDailyReport(to: fallbackSnapshot)
+                    lastError = nil
+                    return snapshot!
+                } catch let apiError {
+                    lastError = apiError
+                    throw apiError
+                }
+            }
             lastError = error
             throw error
         }
